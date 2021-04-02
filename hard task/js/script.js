@@ -7,3 +7,5 @@ while (num > 0) {
     num =  Math.trunc(num/10);
     continue;
 }
+
+console.log(result);
