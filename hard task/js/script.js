@@ -10,3 +10,5 @@ console.log(result);
 
 result **= 3;
 console.log(result);
+
+console.log(String(result).slice(0, 2));
