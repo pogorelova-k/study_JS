@@ -1,4 +1,3 @@
-
 let num = 266219;
 let result = 1;
 
@@ -7,5 +6,7 @@ while (num > 0) {
     num =  Math.trunc(num/10);
     continue;
 }
+console.log(result);
 
+result **= 3;
 console.log(result);
