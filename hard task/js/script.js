@@ -1,6 +1,7 @@
 'use strict';
 let lang = 'en';
 let daysOfWeek = {};
+let namePerson = 'Ксюша';
 
 //todo  ---Вывод дней недели в зависимости от языка---- 
 //* через IF
@@ -43,5 +44,12 @@ daysOfWeek = {
     'ru': ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
     'en': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
 };
-
 console.log('многомерный массив', daysOfWeek[lang]);
+
+
+//todo Тернарные операторы
+namePerson === 'Артём' ? console.log(namePerson,': директор') : namePerson === 'Максим' ? console.log(namePerson,': преподаватель') : console.log(namePerson,': студент');
+
+
+
+
