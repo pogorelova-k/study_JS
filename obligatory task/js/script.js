@@ -14,12 +14,8 @@ budgetDay = money / 30;
 
 money = +prompt('Ваш месячный доход?', money);
 addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', addExpenses);
-deposit = prompt('Есть ли у вас депозит в банке?');
-if (deposit === 'да' || deposit ==='Да' || deposit ==='ДА') {
-    deposit = true;    
-} else {
-    deposit = false;
-} 
+deposit = confirm('Есть ли у вас депозит в банке?');
+
 expenses1 = prompt('Введите обязательную статью расходов?');
 expenses2 = prompt('Введите обязательную статью расходов?');
 amount1 = +prompt('Во сколько это обойдется?');
