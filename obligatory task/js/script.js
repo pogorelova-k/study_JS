@@ -10,7 +10,8 @@ let money = +prompt('Ваш месячный доход?', 1000000),
     expenses1 = prompt('Введите обязательную статью расходов?', 'Еда'),
     amount1 = +prompt('Во сколько это обойдется?', 100000),
     expenses2 = prompt('Введите обязательную статью расходов?', 'Жильё'),
-    amount2 = +prompt('Во сколько это обойдется?', 200000);
+    amount2 = +prompt('Во сколько это обойдется?', 200000),
+    accumulatedMonth = getAccumulatedMonth();
 
 // Сумма расходов
 function getExpensesMonth() {
