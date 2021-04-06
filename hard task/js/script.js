@@ -1,3 +1,4 @@
+'use strict';
 let num = 266219;
 let result = 1;
 
@@ -7,11 +8,9 @@ while (num > 0) {
     num =  Math.trunc(num/10);
     continue;
 }
-console.log(result);
 
+console.log(result);
 // возведение в степень 
-result **= 3;
-console.log(result);
-
+console.log(result **= 3);
 // Вывод первых двух цифр числа
 console.log(String(result).slice(0, 2));
