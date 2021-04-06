@@ -7,14 +7,19 @@ let money = +prompt('Ваш месячный доход?', 1000000),
     period = 12,
     budgetDay = money / 30,
     budgetMonth = 0,
-    expenses1 = prompt('Введите обязательную статью расходов?'),
-    amount1 = +prompt('Во сколько это обойдется?'),
-    expenses2 = prompt('Введите обязательную статью расходов?'),
-    amount2 = +prompt('Во сколько это обойдется?');
+    expenses1 = prompt('Введите обязательную статью расходов?', 'Еда'),
+    amount1 = +prompt('Во сколько это обойдется?', 100000),
+    expenses2 = prompt('Введите обязательную статью расходов?', 'Жильё'),
+    amount2 = +prompt('Во сколько это обойдется?', 200000);
 
 // Сумма расходов
-function getExpensesMonth(amount1, amount2) {
+function getExpensesMonth() {
     return amount1 + amount2;
+}
+
+// Накопления за месяц
+function getAccumulatedMonth() {
+    return money - getExpensesMonth();
 }
 
 // Определение уровня дохода
