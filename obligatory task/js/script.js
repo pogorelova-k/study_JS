@@ -23,6 +23,11 @@ function getAccumulatedMonth() {
     return money - getExpensesMonth();
 }
 
+// Период для достижения цели
+function getTargetMonth() {
+    return Math.ceil(mission / accumulatedMonth);
+}
+    
 // Определение уровня дохода
 if (budgetDay >= 1200) {
     console.log('У вас высокий уровень дохода');
