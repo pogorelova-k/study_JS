@@ -5,13 +5,14 @@ let money = +prompt('Ваш месячный доход?', 1000000),
     deposit = confirm('Есть ли у вас депозит в банке?'),
     mission = 13000000,
     period = 12,
-    budgetDay = money / 30,
     budgetMonth = 0,
     expenses1 = prompt('Введите обязательную статью расходов?', 'Еда'),
     amount1 = +prompt('Во сколько это обойдется?', 100000),
     expenses2 = prompt('Введите обязательную статью расходов?', 'Жильё'),
     amount2 = +prompt('Во сколько это обойдется?', 200000),
-    accumulatedMonth = getAccumulatedMonth();
+    accumulatedMonth = getAccumulatedMonth(),
+    budgetDay = (money - accumulatedMonth) / 30;
+
 
 // Сумма расходов
 function getExpensesMonth() {
@@ -27,7 +28,7 @@ function getAccumulatedMonth() {
 function getTargetMonth() {
     return Math.ceil(mission / accumulatedMonth);
 }
-    
+
 // Определение уровня дохода
 if (budgetDay >= 1200) {
     console.log('У вас высокий уровень дохода');
