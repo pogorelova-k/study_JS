@@ -12,8 +12,10 @@ let money = +prompt('Ваш месячный доход?', 1000000),
     expenses2 = prompt('Введите обязательную статью расходов?'),
     amount2 = +prompt('Во сколько это обойдется?');
 
-// Бюджет на месяц
-budgetMonth = amount1 + amount2;
+// Сумма расходов
+function getExpensesMonth(amount1, amount2) {
+    return amount1 + amount2;
+}
 
 // Определение уровня дохода
 if (budgetDay >= 1200) {
@@ -25,6 +27,8 @@ if (budgetDay >= 1200) {
 } else {
     console.log('Что то пошло не так');
 }
+
+
 
 console.log("money:", typeof money);
 console.log("income:", typeof income);
