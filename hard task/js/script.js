@@ -10,7 +10,6 @@ function deleteSpace(arg) {
         } else {
             arg = arg.trim();
         }
-        
     } else {
         arg = 'Вы ввели строку не правильно';
     }
