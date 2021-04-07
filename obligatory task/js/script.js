@@ -19,10 +19,9 @@ let money = start(),
 
 // Проверка правильности ввода для месячного дохода
 function start(money) {
-    money = prompt('Ваш месячный доход?');
-    while (!isNumber(money)) {
+    do {
         money = prompt('Ваш месячный доход?');
-    }
+    } while (!isNumber(money));
     return money;
 };
 
