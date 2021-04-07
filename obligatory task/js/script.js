@@ -9,13 +9,14 @@ let money = start(),
     income = "фриланс",
     addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', ['Интернет']),
     deposit = confirm('Есть ли у вас депозит в банке?'),
-    mission = 13000000,
+    mission = 1300000,
     period = 12,
     budgetMonth = 0,
     expenses = [],
     expensesAmount = getExpensesMonth(),
     accumulatedMonth = getAccumulatedMonth(), 
-    budgetDay = Math.floor((money - accumulatedMonth) / 30);
+    budgetDay = Math.floor((money - accumulatedMonth) / 30),
+    targetConsole = '';
 
 // Определение типов данных
 let showTypeOf = function(data) {
@@ -25,7 +26,7 @@ let showTypeOf = function(data) {
 // Проверка правильности ввода для месячного дохода
 function start(money) {
     do {
-        money = prompt('Ваш месячный доход?', 1000000);
+        money = prompt('Ваш месячный доход?', 100000);
     } while (!isNumber(money));
     return +money;
 };
@@ -37,13 +38,12 @@ function getExpensesMonth() {
     for (let i = 0; i < 2; i++) {
         expenses[i] = prompt('Введите обязательную статью расходов?', 'Еда');
         do {
-            inputAmount = prompt('Во сколько это обойдется?');
+            inputAmount = prompt('Во сколько это обойдется?', 20000);
         } while (!isNumber(inputAmount));
 
-        sum += inputAmount;
+        sum += +inputAmount;
     }
-    console.log(+sum);
-    return +sum;
+    return sum;
 };
 
 
@@ -56,6 +56,12 @@ function getAccumulatedMonth() {
 function getTargetMonth() {
     return Math.ceil(mission / accumulatedMonth);
 };
+
+if (money <= 0) {
+    targetConsole = 'Цель не будет достигнута';
+} else {
+    targetConsole = 'Цель будет достигнута через ' + getTargetMonth() + ' месяцев(-а)';
+}
 
 // Определение уровня дохода
 function getStatusIncome() {
@@ -79,6 +85,6 @@ showTypeOf(income);
 showTypeOf(deposit);
 console.log('Расходы на месяц: ' + expensesAmount);
 console.log("Возможные расходы на месяц: ", addExpenses.toLowerCase().split(", "));
-console.log('Цель будет достигнута через', getTargetMonth(), 'месяцев(-а)');
+console.log(targetConsole);
 console.log("Бюджет на день: ", budgetDay);
-console.log(getStatusIncome());
+console.log(getStatusIncome()); 
