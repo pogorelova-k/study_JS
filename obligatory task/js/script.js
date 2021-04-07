@@ -17,28 +17,33 @@ let money = start(),
     accumulatedMonth = getAccumulatedMonth(), 
     budgetDay = Math.floor((money - accumulatedMonth) / 30);
 
-// Проверка правильности ввода для месячного дохода
-function start(money) {
-    do {
-        money = prompt('Ваш месячный доход?');
-    } while (!isNumber(money));
-    return money;
-};
-
 // Определение типов данных
 let showTypeOf = function(data) {
     console.log(typeof(data));
 };
 
+// Проверка правильности ввода для месячного дохода
+function start(money) {
+    do {
+        money = prompt('Ваш месячный доход?', 1000000);
+    } while (!isNumber(money));
+    return +money;
+};
+
 // Сумма расходов
 function getExpensesMonth() {
     let sum = 0;
-
+    let inputAmount = 0;
     for (let i = 0; i < 2; i++) {
         expenses[i] = prompt('Введите обязательную статью расходов?', 'Еда');
-        sum += +prompt('Во сколько это обойдется?', 200000);      
+        do {
+            inputAmount = prompt('Во сколько это обойдется?');
+        } while (!isNumber(inputAmount));
+
+        sum += inputAmount;
     }
-    return sum;
+    console.log(+sum);
+    return +sum;
 };
 
 
@@ -68,7 +73,7 @@ function getStatusIncome() {
 }
 
 
-console.log('Доход за месяц', money);
+showTypeOf(expensesAmount);
 showTypeOf(money);
 showTypeOf(income);
 showTypeOf(deposit);
