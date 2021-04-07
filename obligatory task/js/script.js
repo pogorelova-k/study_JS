@@ -46,7 +46,6 @@ function getExpensesMonth() {
     return sum;
 };
 
-
 // Накопления за месяц
 function getAccumulatedMonth() {
     return money - expensesAmount;
