@@ -17,15 +17,15 @@ function playBot() {
         userNumber = +prompt('Введите число', 75);
     }
     if (userNumber === 0) {
-        console.log('Игра окончена');
+        alert('Игра окончена');
         return;
     }
     if (userNumber > botNumber) {
-        console.log('Загаданное число меньше');
+        alert('Загаданное число меньше');
     } else if (userNumber < botNumber) {
-        console.log('Загаданное число больше');
+        alert('Загаданное число больше');
     } else if (userNumber === botNumber) {
-        console.log('Поздравляю, Вы угадали!!! ');
+        alert('Поздравляю, Вы угадали!!! ');
         return;
     }
     console.log('userNumber:',userNumber, 'botNumber:', botNumber);
