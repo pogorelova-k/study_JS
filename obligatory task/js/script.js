@@ -15,7 +15,7 @@ let money = start(),
     expenses = [],
     expensesAmount = getExpensesMonth(),
     accumulatedMonth = getAccumulatedMonth(), 
-    budgetDay = Math.floor((money - accumulatedMonth) / 30),
+    budgetDay = Math.floor(accumulatedMonth / 30),
     targetConsole = '';
 
 // Определение типов данных

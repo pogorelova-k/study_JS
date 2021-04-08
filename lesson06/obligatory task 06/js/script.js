@@ -25,7 +25,7 @@ function playBot() {
     } else if (userNumber < botNumber) {
         console.log('Загаданное число больше');
     } else if (userNumber === botNumber) {
-        console.log('Поздравляю, Вы угадали!!!');
+        console.log('Поздравляю, Вы угадали!!! ');
         return;
     }
     console.log('userNumber:',userNumber, 'botNumber:', botNumber);
