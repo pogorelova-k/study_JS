@@ -12,7 +12,7 @@ let isNumber = (n) => {
 function playWithBot() { 
     let botNumber = getRandomInt(100); //это должно быть замыканием 
     let countAttempts = 1; // Счётчик попыток
-    let attempts = 10; // Количетсво попыток
+    let attempts = 3; // Количетсво попыток
     function checkNumber(userNumber) {
         if (countAttempts < attempts ) {
             while (!isNumber(userNumber)) {
@@ -20,7 +20,7 @@ function playWithBot() {
             }
             if (userNumber === 0) {
                 alert('Игра окончена');
-                return;
+                return playWithBot;
             }
             if (userNumber > botNumber) {
                 alert('Загаданное число меньше, осталось ' + (attempts - countAttempts) + ' попыток(-ки)');
@@ -31,18 +31,28 @@ function playWithBot() {
                 if (confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?')) {
                     playWithBot();
                 } else {
+                    alert('Спасибо за игру! До встречи');
                     return;
                 }
             }
             countAttempts++;
-        } else if (userNumber === botNumber) {
-            if (confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?')) {
-                playWithBot();
-            } else {
-            countAttempts = 1;
-            alert('Игра окончена');
-            return;
+        } else {
+            if (userNumber === botNumber) {
+                if (confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?')) {
+                    playWithBot();
+                } else {
+                    alert('Спасибо за игру! До встречи');
+                    return;
+                }
             }
+
+            countAttempts = 1;
+                if (confirm('Попытки закончились, хотите сыграть еще?')) {
+                    playWithBot();
+                } else {
+                    alert('Спасибо за игру! До встречи');
+                    return;
+                }
         }
         console.log('userNumber:',userNumber, 'botNumber:', botNumber, 'countAttempts:', countAttempts);
 
