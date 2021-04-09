@@ -20,38 +20,35 @@ let appData = {
     budgetMonth: 0,
     expensesAmount: 0,
     asking: function() {
-        let sum = 0;
-
         let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', ['Интернет']);
             appData.addExpenses =  addExpenses.toLowerCase().split(", ");
             appData.deposit = confirm('Есть ли у вас депозит в банке?');
-
+        for (let i = 0; i < 2; i++) {
+            let expenses = prompt('Введите обязательную статью расходов?', 'Еда');
+            let valueExpenses = +prompt('Во сколько это обойдется?', 20000);
+            while (!isNumber(valueExpenses)) {
+                valueExpenses = +prompt('Во сколько это обойдется?', 20000);
+            }
+            appData.expenses[expenses] = valueExpenses;
+            
+        }
         
-        for (let key in appData.expenses) {
-            key = prompt('Введите обязательную статью расходов?', 'Еда');
+        
+    },
+    // Сумма расходов
+    getExpensesMonth: function() {
+        let sum = 0;
+        let inputAmount = 0;
+        for (let i = 0; i < 2; i++) {
+            appData.expenses[i] = prompt('Введите обязательную статью расходов?', 'Еда');
             do {
-                appData.expenses[key] = prompt('Во сколько это обойдется?', 20000);
-            } while (!isNumber(appData.expenses[key]));
+                inputAmount = prompt('Во сколько это обойдется?', 20000);
+            } while (!isNumber(inputAmount));
 
-            sum += +appData.expenses[key];
-            console.log(key, appData.expenses);
+            sum += +inputAmount;
         }
         return sum;
     },
-    // Сумма расходов
-    // getExpensesMonth: function() {
-    //     let sum = 0;
-    //     let inputAmount = 0;
-    //     for (let i = 0; i < 2; i++) {
-    //         appData.expenses[i] = prompt('Введите обязательную статью расходов?', 'Еда');
-    //         do {
-    //             inputAmount = prompt('Во сколько это обойдется?', 20000);
-    //         } while (!isNumber(inputAmount));
-
-    //         sum += +inputAmount;
-    //     }
-    //     return sum;
-    // },
     // Накопления за месяц
     getAccumulatedMonth: function() {
         return money - expensesAmount;
@@ -76,10 +73,10 @@ let appData = {
     },
 };
 
-console.log(appData);
+console.log(appData.expenses);
 appData.asking();
 
-let expensesAmount = appData.expenses,
+let expensesAmount = appData.getExpensesMonth(),
     accumulatedMonth = appData.getAccumulatedMonth(), 
     budgetDay = Math.floor(accumulatedMonth / 30),
     targetConsole = '';
