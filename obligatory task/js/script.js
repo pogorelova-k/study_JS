@@ -28,11 +28,6 @@ let appData = {
     },
 };
 
-// Определение типов данных
-let showTypeOf = function(data) {
-    console.log(typeof(data));
-};
-
 // Проверка правильности ввода для месячного дохода
 function start(money) {
     do {
@@ -87,9 +82,6 @@ function getStatusIncome() {
     return status;
 }
 
-showTypeOf(money);
-showTypeOf(appData.income);
-showTypeOf(appData.deposit);
 console.log('Расходы на месяц: ' + expensesAmount);
 console.log(targetConsole);
 console.log("Бюджет на день: ", budgetDay);
