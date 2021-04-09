@@ -6,17 +6,27 @@ let isNumber = (n) => {
 };
 
 let money = start(),
-    income = "фриланс",
-    addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', ['Интернет']),
-    deposit = confirm('Есть ли у вас депозит в банке?'),
-    mission = 1300000,
-    period = 12,
     budgetMonth = 0,
     expenses = [],
     expensesAmount = getExpensesMonth(),
     accumulatedMonth = getAccumulatedMonth(), 
     budgetDay = Math.floor(accumulatedMonth / 30),
     targetConsole = '';
+
+let appData = {
+    income: {}, //Доход 
+    addIncome: [], // Дополнительный доход
+    expenses: {}, // Доп расходы
+    addExpenses: [], // Возможные расходы
+    deposit: false,
+    mission: 200000,
+    period: 3,
+    asking: function() {
+        let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', ['Интернет']);
+            appData.addExpenses =  addExpenses.toLowerCase().split(", ");
+            appData.deposit = confirm('Есть ли у вас депозит в банке?');
+    },
+};
 
 // Определение типов данных
 let showTypeOf = function(data) {
@@ -53,7 +63,7 @@ function getAccumulatedMonth() {
 
 // Период для достижения цели
 function getTargetMonth() {
-    return Math.ceil(mission / accumulatedMonth);
+    return Math.ceil(appData.mission / accumulatedMonth);
 };
 
 if (money <= 0) {
@@ -77,13 +87,10 @@ function getStatusIncome() {
     return status;
 }
 
-
-showTypeOf(expensesAmount);
 showTypeOf(money);
-showTypeOf(income);
-showTypeOf(deposit);
+showTypeOf(appData.income);
+showTypeOf(appData.deposit);
 console.log('Расходы на месяц: ' + expensesAmount);
-console.log("Возможные расходы на месяц: ", addExpenses.toLowerCase().split(", "));
 console.log(targetConsole);
 console.log("Бюджет на день: ", budgetDay);
 console.log(getStatusIncome()); 
