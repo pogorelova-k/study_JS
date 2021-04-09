@@ -14,6 +14,7 @@ function playWithBot() {
     let countAttempts = 1; // Счётчик попыток
     let attempts = 10; // Количетсво попыток
     function checkNumber(userNumber) {
+        
         if (countAttempts < attempts ) {
             while (!isNumber(userNumber)) {
                 userNumber = +prompt('Введите число', 75);
