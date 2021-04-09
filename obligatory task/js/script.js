@@ -84,12 +84,18 @@ function start(money) {
     return +money;
 };
 
+
 if (appData.budget <= 0) {
     targetConsole = 'Цель не будет достигнута';
 } else {
     targetConsole = 'Цель будет достигнута через ' + appData.getTargetMonth() + ' месяцев(-а)';
 }
 
+
 console.log('Расходы на месяц: ' + appData.expensesMonth);
 console.log(targetConsole);
 console.log("Уровень дохода: ", appData.budget);
+console.log('Наша программа включает в себя данные:');
+for (const key in appData) {
+    console.log(key, appData[key]);
+}
