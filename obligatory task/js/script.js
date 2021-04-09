@@ -26,10 +26,11 @@ let appData = {
             appData.addExpenses =  addExpenses.toLowerCase().split(", ");
             appData.deposit = confirm('Есть ли у вас депозит в банке?');
     },
+    budget: money,
 };
 
 // Проверка правильности ввода для месячного дохода
-function start(money) {
+function start(money) { 
     do {
         money = prompt('Ваш месячный доход?', 100000);
     } while (!isNumber(money));
