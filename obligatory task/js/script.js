@@ -1,5 +1,30 @@
 "use strict";
-let targetConsole = '';
+
+const   calculate = document.getElementById('start'),
+        incomeAdd = document.getElementsByTagName('button')[0],
+        expensesAdd = document.getElementsByTagName('button')[1],
+        depositCheck = document.querySelector('#deposit-check'),
+        additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
+
+        budgetMonthValue = document.getElementsByTagName('input')[13],
+        budgetDayhValue = document.getElementsByTagName('input')[14],
+        expensesMonthValue = document.getElementsByTagName('input')[15],
+        additionalIncomeValue = document.getElementsByTagName('input')[16],
+        additionalExpensesValue = document.getElementsByTagName('input')[17],
+        incomePeriodValue = document.getElementsByTagName('input')[18],
+        targetMonthValue = document.getElementsByTagName('input')[19],
+
+        salaryAmount = document.querySelector('.salary-amount'),
+        incomeTitle = document.querySelector('input.income-title'),
+        incomeAmount = document.querySelector('.income-amount'),
+        expensesTitle = document.querySelector('input.expenses-title'),
+        expensesAmount = document.querySelector('.expenses-amount'),
+        additionalExpensesItem = document.querySelector('.additional_expenses-item'),
+        depositAmount = document.querySelector('.deposit-amount'),
+        depositPercent = document.querySelector('.deposit-percent'),
+        targetAmount = document.querySelector('.target-amount'),
+        periodSelect = document.querySelector('.period-select');
+let     targetConsole = '';
 
 let isNumber = (n) => {
     // если введем число, вернётся true
