@@ -47,7 +47,6 @@ function declension(forms, val) {
     } else {
         return cases[5];
     }
-    return forms[(val % 100 > 4 && val % 100 < 20) ? 2 : cases[(val % 10 < 5) ? val % 10 : 5]];
 };
 
 // функция добавляет ноль, если число меньше 10
