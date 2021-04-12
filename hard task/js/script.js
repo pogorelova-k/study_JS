@@ -1,7 +1,6 @@
 'use strict';
 
-let today = new Date(),
-    date1 = document.querySelector('.date-1'),
+let date1 = document.querySelector('.date-1'),
     date2 = document.querySelector('.date-2'),
     week = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
     months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", 
@@ -9,16 +8,18 @@ let today = new Date(),
     hours = ['час', 'часа', 'часов'],
     minutes = ['минута', 'минуты', 'минут'],
     seconds = ['секунда', 'секунды', 'секунд'],
-    day = today.getDate(),
-    month = today.getMonth(),
-    year = today.getFullYear(),
-    hour = today.getHours(),
-    minute = today.getMinutes(),
-    second = today.getSeconds(),
     addNull = '';
 
 
 function updateTime() {
+    let today = new Date(),
+        day = today.getDate(),
+        month = today.getMonth(),
+        year = today.getFullYear(),
+        hour = today.getHours(),
+        minute = today.getMinutes(),
+        second = today.getSeconds();
+
      // Формат: 'Сегодня Вторник, 4 февраля 2020 года, 21 час 5 минут 33 секунды'  
     let fullDay =   'Сегодня ' + week[today.getDay()] + ', ' + 
                     day + ' ' + 
