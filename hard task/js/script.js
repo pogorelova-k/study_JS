@@ -1,6 +1,6 @@
 'use strict';
 
-let today = new Date,
+let today = new Date(),
     date1 = document.querySelector('.date-1'),
     date2 = document.querySelector('.date-2'),
     week = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
@@ -14,10 +14,11 @@ let today = new Date,
     year = today.getFullYear(),
     hour = today.getHours(),
     minute = today.getMinutes(),
-    second = today.getSeconds();
+    second = today.getSeconds(),
+    addNull = '';
 
 
- //  'Сегодня Вторник, 4 февраля 2020 года, 21 час 5 минут 33 секунды'  
+ // Формат: 'Сегодня Вторник, 4 февраля 2020 года, 21 час 5 минут 33 секунды'  
 let fullDay =   'Сегодня ' + week[today.getDay()] + ', ' + 
                 day + ' ' + 
                 months[month] + ' ' + 
@@ -26,13 +27,13 @@ let fullDay =   'Сегодня ' + week[today.getDay()] + ', ' +
                 minute + ' ' + minutes[declension(minutes, minute)] + ' ' +
                 second + ' ' + seconds[declension(seconds, second)];
 
-                // '04.02.2020 - 21:05:33' 
-let partDay =   day + '.' + 
-                month + '.' + 
+// Формат: '04.02.2020 - 21:05:33' 
+let partDay =   addNullBefore(day) + day + '.' + 
+                addNullBefore(month) + month + '.' + 
                 year  + ' - ' + 
-                hour + ':' + 
-                minute + ':' + 
-                second;
+                addNullBefore(hour) + hour + ':' + 
+                addNullBefore(minute) + minute + ':' + 
+                addNullBefore(second) + second;
 
 // Функция для определения индекса массива hours
 // val - это значение минуты, часа или секунды
@@ -47,11 +48,16 @@ function declension(forms, val) {
         return cases[5];
     }
     return forms[(val % 100 > 4 && val % 100 < 20) ? 2 : cases[(val % 10 < 5) ? val % 10 : 5]];
+};
+
+// функция добавляет ноль, если число меньше 10
+function addNullBefore(val) {
+    if (val < 10) {
+        return '0';
+    } else {
+        return '';
+    }
 }
-
-console.log('declension(hours, hour);: ', declension(hours, hour));
-
-
 
 date1.innerHTML = fullDay;
 date2.innerHTML = partDay;
