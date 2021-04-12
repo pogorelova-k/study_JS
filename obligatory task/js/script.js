@@ -14,17 +14,22 @@ let appData = {
     expenses: {}, // Доп расходы
     addExpenses: [], // Возможные расходы
     deposit: false,
+    percentDeposit: 0,
+    moneyDeposit: 0,
     mission: 200000,
     period: 3,
-    budget: 0,
+    budget: money,
     budgetDay: 0,
     budgetMonth: 0,
     expensesMonth: 0,
-    asking: function() {
-        // appData.budget = +prompt('Ваш месячный доход?', 100000);
-        // while (!isNumber(appData.budget)) {
-        //     appData.budget = prompt('Ваш месячный доход?', 100000);
-        // } 
+    asking: function() { 
+
+        if (confirm('Есть ли у вас дополнительный источник заработка?')) {
+            let itemIncome = prompt('Какой у вас есть дополнительый заработок', 'Таксую');
+            let cashIncome = prompt('Сколько в месяц зарабатываете на этом?', 10000);
+            appData.income[itemIncome] = cashIncome;
+        }
+
         let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', ['Интернет']);
             appData.addExpenses =  addExpenses.toLowerCase().split(", ");
             appData.deposit = confirm('Есть ли у вас депозит в банке?');
@@ -37,8 +42,6 @@ let appData = {
             appData.expenses[expenses] = valueExpenses;
             
         }
-        
-        
     },
     // Сумма расходов
     getExpensesMonth: function() {
@@ -48,8 +51,6 @@ let appData = {
     },
     // Накопления за месяц и день
     getBudget: function() {
-        appData.getExpensesMonth();
-        appData.budget = money;
         appData.budgetMonth = appData.budget - appData.expensesMonth;
         appData.budgetDay = Math.floor(appData.budgetMonth / 30);
     },
@@ -71,6 +72,17 @@ let appData = {
         }
         return status;
     },
+    // Данные о депозите
+    getInfoDeposit: function () {
+        if (appData.deposit) {
+            appData.percentDeposit = prompt('Какой годовой процент?', '10');
+            appData.moneyDeposit = prompt('Какая сумма заложена?', 10000);
+        }
+    },
+    // Сколько заработаем за  период
+    calcSavedMoney: function () {
+        return appData.budgetMonth * appData.period;
+    },
 };
 
 // Проверка правильности ввода для месячного дохода
@@ -82,7 +94,9 @@ function start(money) {
 };
 
 appData.asking();
+appData.getExpensesMonth();
 appData.getBudget();
+appData.getInfoDeposit();
 
 if (appData.budget <= 0) {
     targetConsole = 'Цель не будет достигнута';
@@ -98,3 +112,4 @@ console.log('Наша программа включает в себя данны
 for (const key in appData) {
     console.log(key, appData[key]);
 }
+
