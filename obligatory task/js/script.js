@@ -73,9 +73,6 @@ let appData = {
     },
 };
 
-appData.asking();
-appData.getBudget();
-
 // Проверка правильности ввода для месячного дохода
 function start(money) { 
     do {
@@ -84,6 +81,8 @@ function start(money) {
     return +money;
 };
 
+appData.asking();
+appData.getBudget();
 
 if (appData.budget <= 0) {
     targetConsole = 'Цель не будет достигнута';
