@@ -26,15 +26,25 @@ let appData = {
 
         if (confirm('Есть ли у вас дополнительный источник заработка?')) {
             let itemIncome = prompt('Какой у вас есть дополнительый заработок', 'Таксую');
+            while (isNumber(itemIncome)) {
+                itemIncome = prompt('Какой у вас есть дополнительый заработок', 'Таксую');
+            }
             let cashIncome = prompt('Сколько в месяц зарабатываете на этом?', 10000);
+            while (!isNumber(cashIncome)) {
+                cashIncome = prompt('Сколько в месяц зарабатываете на этом?', 10000);
+            }
             appData.income[itemIncome] = cashIncome;
         }
 
         let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', ['Интернет']);
             appData.addExpenses =  addExpenses.toLowerCase().split(", ");
             appData.deposit = confirm('Есть ли у вас депозит в банке?');
+
         for (let i = 0; i < 2; i++) {
-            let expenses = prompt('Введите обязательную статью расходов?', 'Еда');
+            let expenses = prompt('Введите обязательную статью расходов?', 'Еда'); 
+            while (isNumber(expenses)) {
+                expenses = prompt('Введите обязательную статью расходов?', 'Еда');  
+            }
             let valueExpenses = +prompt('Во сколько это обойдется?', 20000);
             while (!isNumber(valueExpenses)) {
                 valueExpenses = +prompt('Во сколько это обойдется?', 20000);
@@ -75,8 +85,14 @@ let appData = {
     // Данные о депозите
     getInfoDeposit: function () {
         if (appData.deposit) {
-            appData.percentDeposit = prompt('Какой годовой процент?', '10');
+            appData.percentDeposit = prompt('Какой годовой процент?', 10);
+            while (!isNumber(appData.percentDeposit)) {
+                appData.percentDeposit = prompt('Какой годовой процент?', 10);
+            }
             appData.moneyDeposit = prompt('Какая сумма заложена?', 10000);
+            while (!isNumber(appData.moneyDeposit)) {
+                appData.moneyDeposit = prompt('Какая сумма заложена?', 10000);
+            }
         }
     },
     // Сколько заработаем за  период
