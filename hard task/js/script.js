@@ -18,22 +18,27 @@ let today = new Date(),
     addNull = '';
 
 
- // Формат: 'Сегодня Вторник, 4 февраля 2020 года, 21 час 5 минут 33 секунды'  
-let fullDay =   'Сегодня ' + week[today.getDay()] + ', ' + 
-                day + ' ' + 
-                months[month] + ' ' + 
-                year  + ', ' + 
-                hour + ' ' + hours[declension(hours, hour)] + ' ' +
-                minute + ' ' + minutes[declension(minutes, minute)] + ' ' +
-                second + ' ' + seconds[declension(seconds, second)];
+function updateTime() {
+     // Формат: 'Сегодня Вторник, 4 февраля 2020 года, 21 час 5 минут 33 секунды'  
+    let fullDay =   'Сегодня ' + week[today.getDay()] + ', ' + 
+                    day + ' ' + 
+                    months[month] + ' ' + 
+                    year  + ', ' + 
+                    hour + ' ' + hours[declension(hours, hour)] + ' ' +
+                    minute + ' ' + minutes[declension(minutes, minute)] + ' ' +
+                    second + ' ' + seconds[declension(seconds, second)];
 
-// Формат: '04.02.2020 - 21:05:33' 
-let partDay =   addNullBefore(day) + day + '.' + 
-                addNullBefore(month) + month + '.' + 
-                year  + ' - ' + 
-                addNullBefore(hour) + hour + ':' + 
-                addNullBefore(minute) + minute + ':' + 
-                addNullBefore(second) + second;
+    // Формат: '04.02.2020 - 21:05:33' 
+    let partDay =   addNullBefore(day) + day + '.' + 
+                    addNullBefore(month) + month + '.' + 
+                    year  + ' - ' + 
+                    addNullBefore(hour) + hour + ':' + 
+                    addNullBefore(minute) + minute + ':' + 
+                    addNullBefore(second) + second;
+
+    date1.innerHTML = fullDay;
+    date2.innerHTML = partDay;
+}
 
 // Функция для определения индекса массива hours
 // val - это значение минуты, часа или секунды
@@ -56,7 +61,6 @@ function addNullBefore(val) {
     } else {
         return '';
     }
-}
+};
 
-date1.innerHTML = fullDay;
-date2.innerHTML = partDay;
+setInterval(updateTime, 1000);
