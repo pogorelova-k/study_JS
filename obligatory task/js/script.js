@@ -23,7 +23,8 @@ let   start = document.getElementById('start'),
         depositAmount = document.querySelector('.deposit-amount'),
         depositPercent = document.querySelector('.deposit-percent'),
         targetAmount = document.querySelector('.target-amount'),
-        periodSelect = document.querySelector('.period-select');
+        periodSelect = document.querySelector('.period-select'),
+        periodAmount = document.querySelector('.period-amount');
 let     targetConsole = '';
 
 let isNumber = (n) => {
@@ -198,6 +199,10 @@ start.addEventListener('click', appData.start);
 
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
+
+periodSelect.addEventListener('input', () => {
+    periodAmount.textContent = periodSelect.value;
+})
 
 if (appData.budget <= 0) {
     targetConsole = 'Цель не будет достигнута';
