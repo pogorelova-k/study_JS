@@ -6,6 +6,8 @@ let     start = document.getElementById('start'),
         depositCheck = document.querySelector('#deposit-check'),
         additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
         incomeItems = document.querySelectorAll('.income-items'),
+        inputsName = document.querySelectorAll('input[placeholder="Наименование"]'),
+        inputsSum = document.querySelectorAll('input[placeholder="Сумма"]'),
 
         budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
         budgetDayhValue = document.getElementsByClassName('budget_day-value')[0],
@@ -216,10 +218,17 @@ salaryAmount.addEventListener('input', () => {
     }
 });
 
-let inputsName = document.querySelectorAll('input[placeholder="Наименование"]');
+// Ограничения на ввод полей Наименования
 inputsName.forEach(item => {
     item.addEventListener('input', () => {
         item.value = item.value.replace((/[^а-я, -.?!)(,:]/),'');
+    });
+});
+
+// Ограничения ввода полей Сумма
+inputsSum.forEach( item => {
+    item.addEventListener('input', () => {
+        item.value = item.value.replace((/[^0-9]/),'');
     });
 });
 
