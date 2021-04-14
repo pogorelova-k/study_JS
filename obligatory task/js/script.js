@@ -1,8 +1,8 @@
 "use strict";
 
-const   start = document.getElementById('start'),
-        incomeAdd = document.getElementsByTagName('button')[0],
-        expensesAdd = document.getElementsByTagName('button')[1],
+let   start = document.getElementById('start'),
+        incomePlus = document.getElementsByTagName('button')[0],
+        expensesPlus = document.getElementsByTagName('button')[1],
         depositCheck = document.querySelector('#deposit-check'),
         additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
 
@@ -18,7 +18,7 @@ const   start = document.getElementById('start'),
         incomeTitle = document.querySelector('input.income-title'),
         incomeAmount = document.querySelector('.income-amount'),
         expensesTitle = document.querySelector('input.expenses-title'),
-        expensesAmount = document.querySelector('.expenses-amount'),
+        expensesItems = document.querySelectorAll('.expenses-items'),
         additionalExpensesItem = document.querySelector('.additional_expenses-item'),
         depositAmount = document.querySelector('.deposit-amount'),
         depositPercent = document.querySelector('.deposit-percent'),
@@ -59,6 +59,16 @@ let appData = {
         // appData.getExpensesMonth();
         // appData.getBudget();
         // appData.getInfoDeposit();
+    },
+    // Добавление новых полей
+    addExpensesBlock: function () {
+
+        let cloneExpensesItem = expensesItems[0].cloneNode(true);
+        expensesPlus.before(cloneExpensesItem);
+        expensesItems = document.querySelectorAll('.expenses-items');
+        if (expensesItems.length === 3) {
+            expensesPlus.style.display = 'none';
+        }
     },
     asking: function() { 
 
@@ -141,6 +151,7 @@ let appData = {
 
 start.addEventListener('click', appData.start);
 
+expensesPlus.addEventListener('click', appData.addExpensesBlock);
 
 
 if (appData.budget <= 0) {
@@ -149,11 +160,11 @@ if (appData.budget <= 0) {
     targetConsole = 'Цель будет достигнута через ' + appData.getTargetMonth() + ' месяцев(-а)';
 }
 
-console.log(targetConsole);
-console.log("Уровень дохода: ", appData.budget);
-console.log('Наша программа включает в себя данные:');
-for (const key in appData) {
-    console.log(key, appData[key]);
-}
-console.log('Возможные расходы: ', appData.addExpenses.map((elem) => elem[0].toUpperCase() + elem.slice(1)).join(', '));
+// console.log(targetConsole);
+// console.log("Уровень дохода: ", appData.budget);
+// console.log('Наша программа включает в себя данные:');
+// for (const key in appData) {
+//     console.log(key, appData[key]);
+// }
+// console.log('Возможные расходы: ', appData.addExpenses.map((elem) => elem[0].toUpperCase() + elem.slice(1)).join(', '));
 
