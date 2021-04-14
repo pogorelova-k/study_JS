@@ -91,17 +91,29 @@ let appData = {
             }
         });
     },
+    // добавление полей дополнительного дохода
+    addIncomeBlock: function() {
+        let cloneIncomeItem = incomeItems[0].cloneNode(true);
+        incomePlus.before(cloneIncomeItem);
+        incomeItems = document.querySelectorAll('.income-items');
+        if (incomeItems.length === 3) {
+            incomePlus.style.display = 'none';
+        };
+    },
     // Дополнительный доход
     getIncome: function() { 
-        // !-------------------
         incomeItems.forEach( item => {
             let itemIncome = item.querySelector('.income-title').value;
             let cashIncome = item.querySelector('.income-amount').value;
             if (itemIncome !== '' && cashIncome !== '') {
                 appData.income[itemIncome] = cashIncome;
             }
-
         });
+
+        for (const key in appData.income) {
+            appData.incomeMonth += +appData.income[key];
+        }
+
         if (confirm('Есть ли у вас дополнительный источник заработка?')) {
             let itemIncome = prompt('Какой у вас есть дополнительый заработок', 'Таксую');
             while (isNumber(itemIncome)) {
@@ -112,10 +124,6 @@ let appData = {
                 cashIncome = prompt('Сколько в месяц зарабатываете на этом?', 10000);
             }
             appData.income[itemIncome] = cashIncome;
-        }
-
-        for (const key in appData.income) {
-            appData.incomeMonth += +appData.income[key];
         }
     },
     // Получение названий возможных расходов
@@ -189,6 +197,7 @@ let appData = {
 start.addEventListener('click', appData.start);
 
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
+incomePlus.addEventListener('click', appData.addIncomeBlock);
 
 
 if (appData.budget <= 0) {
