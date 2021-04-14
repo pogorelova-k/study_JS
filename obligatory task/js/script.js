@@ -216,6 +216,13 @@ salaryAmount.addEventListener('input', () => {
     }
 });
 
+let inputsName = document.querySelectorAll('input[placeholder="Наименование"]');
+inputsName.forEach(item => {
+    item.addEventListener('input', () => {
+        item.value = item.value.replace((/[^а-я, -.?!)(,:]/),'');
+    });
+});
+
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 
