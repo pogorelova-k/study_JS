@@ -61,7 +61,6 @@ let appData = {
         appData.getBudget();
 
         appData.showResult();
-        // appData.getInfoDeposit();
     },
     // вывод результатов справа
     showResult: function() {
@@ -94,6 +93,15 @@ let appData = {
     },
     // Дополнительный доход
     getIncome: function() { 
+        // !-------------------
+        incomeItems.forEach( item => {
+            let itemIncome = item.querySelector('.income-title').value;
+            let cashIncome = item.querySelector('.income-amount').value;
+            if (itemIncome !== '' && cashIncome !== '') {
+                appData.income[itemIncome] = cashIncome;
+            }
+
+        });
         if (confirm('Есть ли у вас дополнительный источник заработка?')) {
             let itemIncome = prompt('Какой у вас есть дополнительый заработок', 'Таксую');
             while (isNumber(itemIncome)) {
