@@ -1,6 +1,6 @@
 "use strict";
 
-let   start = document.getElementById('start'),
+let     start = document.getElementById('start'),
         incomePlus = document.getElementsByTagName('button')[0],
         expensesPlus = document.getElementsByTagName('button')[1],
         depositCheck = document.querySelector('#deposit-check'),
@@ -47,11 +47,6 @@ let appData = {
     expensesMonth: 0,
     // Проверка правильности ввода для месячного дохода
     start: function(money) { 
-        if (salaryAmount.value === '') {
-            alert('Ошибка, поле месячный доход должно быть заполнено');
-            return;
-        }
-
         appData.budget = +salaryAmount.value;
 
         appData.getExpenses();
@@ -199,7 +194,21 @@ let appData = {
     },
 };
 
+if (salaryAmount.value === '') {
+    start.disabled = true;
+} 
+
 start.addEventListener('click', appData.start);
+
+salaryAmount.addEventListener('input', () => {
+    console.log(salaryAmount.value);
+    if (salaryAmount.value === '') {
+        start.disabled = true;
+    } else {
+        start.disabled = false;
+        start.addEventListener('click', appData.start);
+    }
+});
 
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
