@@ -1,6 +1,6 @@
 "use strict";
 
-const   calculate = document.getElementById('start'),
+const   start = document.getElementById('start'),
         incomeAdd = document.getElementsByTagName('button')[0],
         expensesAdd = document.getElementsByTagName('button')[1],
         depositCheck = document.querySelector('#deposit-check'),
@@ -31,8 +31,6 @@ let isNumber = (n) => {
     return !isNaN(parseFloat(n)) && isFinite(n); 
 };
 
-let money = start();
-
 let appData = {
     income: {}, //Доход 
     addIncome: [], // Дополнительный доход
@@ -43,10 +41,25 @@ let appData = {
     moneyDeposit: 0,
     mission: 200000,
     period: 3,
-    budget: money,
+    budget: 0,
     budgetDay: 0,
     budgetMonth: 0,
     expensesMonth: 0,
+    // Проверка правильности ввода для месячного дохода
+    start: function(money) { 
+        if (salaryAmount.value === '') {
+            alert('Ошибка, поле месячный доход должно быть заполнено');
+            return;
+        }
+
+        appData.budget = salaryAmount.value;
+        console.log('salaryAmount.value: ', salaryAmount.value);
+
+        // appData.asking();
+        // appData.getExpensesMonth();
+        // appData.getBudget();
+        // appData.getInfoDeposit();
+    },
     asking: function() { 
 
         if (confirm('Есть ли у вас дополнительный источник заработка?')) {
@@ -126,18 +139,9 @@ let appData = {
     },
 };
 
-// Проверка правильности ввода для месячного дохода
-function start(money) { 
-    do {
-        money = prompt('Ваш месячный доход?', 100000);
-    } while (!isNumber(money));
-    return +money;
-};
+start.addEventListener('click', appData.start);
 
-appData.asking();
-appData.getExpensesMonth();
-appData.getBudget();
-appData.getInfoDeposit();
+
 
 if (appData.budget <= 0) {
     targetConsole = 'Цель не будет достигнута';
@@ -145,8 +149,6 @@ if (appData.budget <= 0) {
     targetConsole = 'Цель будет достигнута через ' + appData.getTargetMonth() + ' месяцев(-а)';
 }
 
-
-console.log('Расходы на месяц: ' + appData.expensesMonth);
 console.log(targetConsole);
 console.log("Уровень дохода: ", appData.budget);
 console.log('Наша программа включает в себя данные:');
