@@ -199,7 +199,6 @@ start.addEventListener('click', appData.start);
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 
-
 if (appData.budget <= 0) {
     targetConsole = 'Цель не будет достигнута';
 } else {
