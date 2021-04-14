@@ -75,6 +75,9 @@ let appData = {
     // Добавление новых полей
     addExpensesBlock: function () {
         let cloneExpensesItem = expensesItems[0].cloneNode(true);
+        cloneExpensesItem.querySelectorAll('input').forEach( (input) => {
+            input.value = '';
+        });
         expensesPlus.before(cloneExpensesItem);
         expensesItems = document.querySelectorAll('.expenses-items');
         if (expensesItems.length === 3) {
@@ -94,6 +97,9 @@ let appData = {
     // добавление полей дополнительного дохода
     addIncomeBlock: function() {
         let cloneIncomeItem = incomeItems[0].cloneNode(true);
+        cloneIncomeItem.querySelectorAll('input').forEach( (input) => {
+            input.value = '';
+        });
         incomePlus.before(cloneIncomeItem);
         incomeItems = document.querySelectorAll('.income-items');
         if (incomeItems.length === 3) {
