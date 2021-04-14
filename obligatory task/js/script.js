@@ -72,6 +72,10 @@ let appData = {
         additionalIncomeValue.value = appData.addIncome.join(', ');
         targetMonthValue.value = appData.getTargetMonth();
         incomePeriodValue.value = appData.calcPeriod();
+        periodSelect.addEventListener('input', () => {
+            periodAmount.textContent = periodSelect.value;
+            incomePeriodValue.value = appData.calcPeriod();
+        });
     },
     // Добавление новых полей
     addExpensesBlock: function () {
@@ -202,10 +206,11 @@ incomePlus.addEventListener('click', appData.addIncomeBlock);
 
 periodSelect.addEventListener('input', () => {
     periodAmount.textContent = periodSelect.value;
-})
+    appData.incomePeriodValue = appData.calcPeriod();
+});
 
 if (appData.budget <= 0) {
-    targetConsole = 'Цель не будет достигнута';
+    targetConsole = 'Цель не будет достигнута'; 
 } else {
     targetConsole = 'Цель будет достигнута через ' + appData.getTargetMonth() + ' месяцев(-а)';
 }
