@@ -52,8 +52,6 @@ let appData = {
     start: function(money) { 
         appData.budget = +salaryAmount.value;
 
-        
-
         appData.getExpenses();
         appData.getIncome();
         appData.getExpensesMonth();
@@ -72,6 +70,7 @@ let appData = {
             }
             item.value = '';
         });
+        appData = 0;
     },
     // вывод результатов справа
     showResult: function() {
@@ -135,17 +134,6 @@ let appData = {
             appData.incomeMonth += +appData.income[key];
         }
 
-        if (confirm('Есть ли у вас дополнительный источник заработка?')) {
-            let itemIncome = prompt('Какой у вас есть дополнительый заработок', 'Таксую');
-            while (isNumber(itemIncome)) {
-                itemIncome = prompt('Какой у вас есть дополнительый заработок', 'Таксую');
-            }
-            let cashIncome = prompt('Сколько в месяц зарабатываете на этом?', 10000);
-            while (!isNumber(cashIncome)) {
-                cashIncome = prompt('Сколько в месяц зарабатываете на этом?', 10000);
-            }
-            appData.income[itemIncome] = cashIncome;
-        }
     },
     // Получение названий возможных расходов
     getAddExpenses: function() {
