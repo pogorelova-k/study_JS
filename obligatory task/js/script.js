@@ -1,6 +1,7 @@
 "use strict";
 
 let     start = document.getElementById('start'),
+        cancel = document.getElementById('cancel'),
         incomePlus = document.getElementsByTagName('button')[0],
         expensesPlus = document.getElementsByTagName('button')[1],
         depositCheck = document.querySelector('#deposit-check'),
@@ -51,6 +52,8 @@ let appData = {
     start: function(money) { 
         appData.budget = +salaryAmount.value;
 
+        
+
         appData.getExpenses();
         appData.getIncome();
         appData.getExpensesMonth();
@@ -59,6 +62,16 @@ let appData = {
         appData.getBudget();
 
         appData.showResult();
+    },
+    cancel: function () {
+        cancel.style.display = 'none';
+        let allInputs = document.querySelectorAll('input');
+        allInputs.forEach(item => {
+            if (item === periodSelect) {
+                periodAmount.textContent = 7;
+            }
+            item.value = '';
+        });
     },
     // вывод результатов справа
     showResult: function() {
@@ -207,9 +220,10 @@ if (salaryAmount.value === '') {
 } 
 
 start.addEventListener('click', appData.start);
+cancel.addEventListener('click', appData.cancel);
 
 salaryAmount.addEventListener('input', () => {
-    console.log(salaryAmount.value);
+    cancel.style.display = 'block';
     if (salaryAmount.value === '') {
         start.disabled = true;
     } else {
