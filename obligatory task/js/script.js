@@ -9,6 +9,8 @@ let     start = document.getElementById('start'),
         incomeItems = document.querySelectorAll('.income-items'),
         inputsName = document.querySelectorAll('input[placeholder="Наименование"]'),
         inputsSum = document.querySelectorAll('input[placeholder="Сумма"]'),
+        data = document.querySelector('.data'),
+        dataInputText = data.querySelectorAll('input[type="text"]'),
 
         budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
         budgetDayhValue = document.getElementsByClassName('budget_day-value')[0],
@@ -50,6 +52,12 @@ let appData = {
     expensesMonth: 0,
     // Проверка правильности ввода для месячного дохода
     start: function(money) { 
+        start.style.display = 'none';
+        cancel.style.display = 'block';
+        dataInputText.forEach( item => {
+            item.disabled = true;
+        });
+
         this.budget = +salaryAmount.value;
 
         this.getExpenses();
@@ -58,11 +66,16 @@ let appData = {
         this.getAddExpenses();
         this.getAddIncome();
         this.getBudget();
-
         appData.showResult();
     },
-    cancel: function () {
+    reset: function () {
+        start.style.display = 'block';
         cancel.style.display = 'none';
+        
+        dataInputText.forEach( item => {
+            item.disabled = false;
+        });
+
         let allInputs = document.querySelectorAll('input');
         allInputs.forEach(item => {
             if (item === periodSelect) {
@@ -70,7 +83,19 @@ let appData = {
             }
             item.value = '';
         });
-        appData = 0;
+
+        for (let key in appData) {
+            if (typeof(appData[key]) === 'number') {
+                appData[key] = 0;
+            } else if (typeof(appData[key]) === 'boolean') {
+                appData[key] = false;
+            } else if (typeof(appData[key]) === 'object') {
+                appData[key] = {};
+            }
+
+            appData.addIncome = [];
+            appData.addExpenses = [];
+        }
     },
     // вывод результатов справа
     showResult: function() {
@@ -209,7 +234,6 @@ if (salaryAmount.value === '') {
 } 
 
 salaryAmount.addEventListener('input', () => {
-    cancel.style.display = 'block';
     if (salaryAmount.value === '') {
         start.disabled = true;
     } else {    
@@ -219,7 +243,12 @@ salaryAmount.addEventListener('input', () => {
 
 // привязка контекст вызова функции start к appData - .bind
 start.addEventListener('click', appData.start.bind(appData));
-cancel.addEventListener('click', appData.cancel);
+    
+    // start.style.display = 'none';
+    // cancel.style.display = 'block';
+// });
+
+cancel.addEventListener('click', appData.reset);
 
 // Ограничения на ввод полей Наименования
 inputsName.forEach(item => {
