@@ -49,5 +49,8 @@ todoControl.addEventListener('submit', (event) => {
     todoData.push(newTodo);
 
     render();
+    
+    headerInput.value = '';
+
 });
 render();
