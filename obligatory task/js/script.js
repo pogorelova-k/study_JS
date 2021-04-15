@@ -52,6 +52,8 @@ let appData = {
     start: function(money) { 
         appData.budget = +salaryAmount.value;
 
+        console.log(this);
+
         appData.getExpenses();
         appData.getIncome();
         appData.getExpensesMonth();
@@ -74,6 +76,7 @@ let appData = {
     },
     // вывод результатов справа
     showResult: function() {
+        
         budgetMonthValue.value = appData.budgetMonth;
         budgetDayhValue.value = appData.budgetDay;
         expensesMonthValue.value = appData.expensesMonth;
@@ -207,18 +210,18 @@ if (salaryAmount.value === '') {
     start.disabled = true;
 } 
 
-start.addEventListener('click', appData.start);
-cancel.addEventListener('click', appData.cancel);
-
 salaryAmount.addEventListener('input', () => {
     cancel.style.display = 'block';
     if (salaryAmount.value === '') {
         start.disabled = true;
     } else {
         start.disabled = false;
-        start.addEventListener('click', appData.start);
     }
 });
+
+// привязка контекст вызова функции start к appData - .bind
+start.addEventListener('click', appData.start.bind(appData));
+cancel.addEventListener('click', appData.cancel);
 
 // Ограничения на ввод полей Наименования
 inputsName.forEach(item => {
