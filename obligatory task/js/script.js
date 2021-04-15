@@ -50,16 +50,14 @@ let appData = {
     expensesMonth: 0,
     // Проверка правильности ввода для месячного дохода
     start: function(money) { 
-        appData.budget = +salaryAmount.value;
+        this.budget = +salaryAmount.value;
 
-        console.log(this);
-
-        appData.getExpenses();
-        appData.getIncome();
-        appData.getExpensesMonth();
-        appData.getAddExpenses();
-        appData.getAddIncome();
-        appData.getBudget();
+        this.getExpenses();
+        this.getIncome();
+        this.getExpensesMonth();
+        this.getAddExpenses();
+        this.getAddIncome();
+        this.getBudget();
 
         appData.showResult();
     },
@@ -76,17 +74,17 @@ let appData = {
     },
     // вывод результатов справа
     showResult: function() {
-        
-        budgetMonthValue.value = appData.budgetMonth;
-        budgetDayhValue.value = appData.budgetDay;
-        expensesMonthValue.value = appData.expensesMonth;
-        additionalExpensesValue.value = appData.addExpenses.join(', ');
-        additionalIncomeValue.value = appData.addIncome.join(', ');
-        targetMonthValue.value = appData.getTargetMonth();
-        incomePeriodValue.value = appData.calcPeriod();
+        budgetMonthValue.value = this.budgetMonth;
+        budgetDayhValue.value = this.budgetDay;
+        expensesMonthValue.value = this.expensesMonth;
+        additionalExpensesValue.value = this.addExpenses.join(', ');
+        additionalIncomeValue.value = this.addIncome.join(', ');
+        targetMonthValue.value = this.getTargetMonth();
+        incomePeriodValue.value = this.calcPeriod();
+
         periodSelect.addEventListener('input', () => {
             periodAmount.textContent = periodSelect.value;
-            incomePeriodValue.value = appData.calcPeriod();
+            incomePeriodValue.value = this.calcPeriod();
         });
     },
     // Добавление новых полей
@@ -107,7 +105,7 @@ let appData = {
             let itemExpenses = item.querySelector('.expenses-title').value;
             let cashExpenses = item.querySelector('.expenses-amount').value;
             if (itemExpenses !== '' && cashExpenses!== '') {
-                appData.expenses[itemExpenses] = cashExpenses;
+                appData.expenses[itemExpenses] = cashExpenses; //! Если appData заменить на this => undefined. почему?
             }
         });
     },
@@ -121,7 +119,7 @@ let appData = {
         incomeItems = document.querySelectorAll('.income-items');
         if (incomeItems.length === 3) {
             incomePlus.style.display = 'none';
-        };
+        }
     },
     // Дополнительный доход
     getIncome: function() { 
@@ -129,12 +127,12 @@ let appData = {
             let itemIncome = item.querySelector('.income-title').value;
             let cashIncome = item.querySelector('.income-amount').value;
             if (itemIncome !== '' && cashIncome !== '') {
-                appData.income[itemIncome] = cashIncome;
+                this.income[itemIncome] = cashIncome;
             }
         });
 
-        for (const key in appData.income) {
-            appData.incomeMonth += +appData.income[key];
+        for (const key in this.income) {
+            this.incomeMonth += +this.income[key];
         }
 
     },
@@ -145,7 +143,7 @@ let appData = {
             // удаляем лишние пробелы
             item = item.trim();
             if (item !== '') {
-                appData.addExpenses.push(item);
+                this.addExpenses.push(item);
             }
         });
     },
@@ -154,33 +152,33 @@ let appData = {
         additionalIncomeItem.forEach(item => {
             let itemValue = item.value.trim();
             if (itemValue !== '') {
-                appData.addIncome.push(itemValue);
+                this.addIncome.push(itemValue);
             }
         }); 
     },
     // Сумма расходов
     getExpensesMonth: function() {
-        for (const key in appData.expenses) {
-            appData.expensesMonth += +appData.expenses[key];
+        for (const key in this.expenses) {
+            this.expensesMonth += +this.expenses[key];
         }
     },
     // Накопления за месяц и день
     getBudget: function() {
-        appData.budgetMonth = appData.budget + appData.incomeMonth - appData.expensesMonth;
-        appData.budgetDay = Math.floor(appData.budgetMonth / 30);
+        this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
+        this.budgetDay = Math.floor(this.budgetMonth / 30);
     },
     // Период для достижения цели
     getTargetMonth: function() {
-        return Math.ceil(targetAmount.value / appData.budgetMonth);
+        return Math.ceil(targetAmount.value / this.budgetMonth);
     },
     // Определение уровня дохода
     getStatusIncome: function() {
         let status;
-        if (appData.budgetDay >= 1200) {
+        if (this.budgetDay >= 1200) {
             status = 'У вас высокий уровень дохода';
-        } else if (appData.budgetDay >= 600) {
+        } else if (this.budgetDay >= 600) {
             status = 'У вас средний уровень дохода';
-        } else if (appData.budgetDay < 600 && appData.budgetDay >= 0 ) {
+        } else if (this.budgetDay < 600 && this.budgetDay >= 0 ) {
             status = 'К сожалению, у вас уровень дохода ниже среднего';
         } else {
             status = 'Что то пошло не так';
@@ -202,7 +200,7 @@ let appData = {
     },
     // Сколько заработаем за  период
     calcPeriod: function () {
-        return appData.budgetMonth * periodSelect.value;
+        return this.budgetMonth * periodSelect.value;
     },
 };
 
@@ -214,7 +212,7 @@ salaryAmount.addEventListener('input', () => {
     cancel.style.display = 'block';
     if (salaryAmount.value === '') {
         start.disabled = true;
-    } else {
+    } else {    
         start.disabled = false;
     }
 });
@@ -238,7 +236,7 @@ inputsSum.forEach( item => {
 });
 
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
-incomePlus.addEventListener('click', appData.addIncomeBlock);
+incomePlus.addEventListener('click', appData.addIncomeBlock.bind(appData));
 
 periodSelect.addEventListener('input', () => {
     periodAmount.textContent = periodSelect.value;
