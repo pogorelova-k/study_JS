@@ -96,6 +96,25 @@ let appData = {
             appData.addIncome = [];
             appData.addExpenses = [];
         }
+
+        if (incomeItems.length === 3) {
+            incomeItems[incomeItems.length - 1].remove();
+            incomeItems[incomeItems.length - 2].remove();
+            incomePlus.style.display = 'block';
+            
+        } else if (incomeItems.length === 2) {
+            incomeItems[incomeItems.length - 1].remove();
+            incomePlus.style.display = 'block';
+        } 
+
+        if  (expensesItems.length === 3) {
+            expensesItems[expensesItems.length - 1].remove();
+            expensesItems[expensesItems.length - 2].remove();
+            expensesPlus.style.display = 'block';
+        } else if (expensesItems.length === 2) {
+            expensesItems[expensesItems.length - 1].remove();
+            expensesPlus.style.display = 'block';
+        }
     },
     // вывод результатов справа
     showResult: function() {
@@ -243,10 +262,6 @@ salaryAmount.addEventListener('input', () => {
 
 // привязка контекст вызова функции start к appData - .bind
 start.addEventListener('click', appData.start.bind(appData));
-    
-    // start.style.display = 'none';
-    // cancel.style.display = 'block';
-// });
 
 cancel.addEventListener('click', appData.reset);
 
