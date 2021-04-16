@@ -54,6 +54,8 @@ let appData = {
     start: function(money) { 
         start.style.display = 'none';
         cancel.style.display = 'block';
+
+        dataInputText = data.querySelectorAll('input[type="text"]');
         dataInputText.forEach( item => {
             item.disabled = true;
         });
@@ -299,5 +301,6 @@ if (appData.budget <= 0) {
 // for (const key in appData) {
 //     console.log(key, appData[key]);
 // }
-// console.log('Возможные расходы: ', appData.addExpenses.map((elem) => elem[0].toUpperCase() + elem.slice(1)).join(', '));
+// console.log('Возможные расходы: ', appData.addExpenses.map((elem) => 
+// elem[0].toUpperCase() + elem.slice(1)).join(', '));
 
