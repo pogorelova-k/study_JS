@@ -11,11 +11,10 @@ const dataSaved = () => {
     todoData = (JSON.parse(localStorage.data));
 };
 
-
 const render = function() {
     todoList.textContent = '';
     todoCompleted.textContent = '';
-    localStorage.data = JSON.stringify(todoData);
+        localStorage.data = JSON.stringify(todoData);
 
     todoData.forEach((item, index) => {
         let li = document.createElement('li');
