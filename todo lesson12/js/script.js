@@ -5,27 +5,19 @@ const   todoControl = document.querySelector('.todo-control'),
         todoList = document.querySelector('.todo-list'),
         todoCompleted = document.querySelector('.todo-completed');
 
-const todoData = [
-    {
-        value: 'Сварить кофе',
-        completed: false
-    },
-    {
-        value: 'Помыть посуду',
-        completed: false
-    }
-];
+let todoData = [];
 
+const dataSaved = () => {
+    todoData = (JSON.parse(localStorage.data));
+};
 
 
 const render = function() {
     todoList.textContent = '';
     todoCompleted.textContent = '';
+    localStorage.data = JSON.stringify(todoData);
 
     todoData.forEach((item, index) => {
-        let json = JSON.stringify(todoData);
-        localStorage.data = json;
-        
         let li = document.createElement('li');
         li.classList.add('todo-item');
         li.innerHTML = '<span class="text-todo">' + item.value + '</span>' +
@@ -52,14 +44,12 @@ const render = function() {
             todoData.splice(index, 1);
             render();
         });
-        
     });
-
 };
 
 todoControl.addEventListener('submit', (event) => {
     event.preventDefault();
-
+    
     const newTodo = {
         value: headerInput.value,
         completed: false
@@ -76,4 +66,6 @@ todoControl.addEventListener('submit', (event) => {
     headerInput.value = '';
 
 });
+
+dataSaved();
 render();
