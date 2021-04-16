@@ -16,11 +16,16 @@ const todoData = [
     }
 ];
 
+
+
 const render = function() {
     todoList.textContent = '';
     todoCompleted.textContent = '';
 
     todoData.forEach((item, index) => {
+        let json = JSON.stringify(todoData);
+        localStorage.data = json;
+        
         let li = document.createElement('li');
         li.classList.add('todo-item');
         li.innerHTML = '<span class="text-todo">' + item.value + '</span>' +
