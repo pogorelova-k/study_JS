@@ -262,35 +262,38 @@ AppData.prototype.calcPeriod = function () {
     return this.budgetMonth * periodSelect.value;
 };
 
+AppData.prototype.eventListeners = function () {
+    // привязка контекст вызова функции start к appData - .bind
+    start.addEventListener('click', appData.start.bind(appData));
+    salaryAmount.addEventListener('input', appData.check);
+    cancel.addEventListener('click', appData.reset);
+    expensesPlus.addEventListener('click', appData.addExpensesBlock);
+    incomePlus.addEventListener('click', appData.addIncomeBlock.bind(appData));
+
+    periodSelect.addEventListener('input', () => {
+        periodAmount.textContent = periodSelect.value;
+        appData.incomePeriodValue = appData.calcPeriod();
+    });
+
+    // Ограничения на ввод полей Наименования
+    inputsName.forEach(item => {
+        item.addEventListener('input', () => {
+            item.value = item.value.replace((/[^а-я, -.?!)(,:]/),'');
+        });
+    });
+
+    // Ограничения ввода полей Сумма
+    inputsSum.forEach( item => {
+        item.addEventListener('input', () => {
+            item.value = item.value.replace((/[^0-9]/),'');
+        });
+    });
+};
+
 const appData = new AppData();
-console.log('appData: ', appData);
 
+appData.eventListeners();
 
-// привязка контекст вызова функции start к appData - .bind
-start.addEventListener('click', appData.start.bind(appData));
-salaryAmount.addEventListener('input', appData.check);
-cancel.addEventListener('click', appData.reset);
-expensesPlus.addEventListener('click', appData.addExpensesBlock);
-incomePlus.addEventListener('click', appData.addIncomeBlock.bind(appData));
-
-periodSelect.addEventListener('input', () => {
-    periodAmount.textContent = periodSelect.value;
-    appData.incomePeriodValue = appData.calcPeriod();
-});
-
-// Ограничения на ввод полей Наименования
-inputsName.forEach(item => {
-    item.addEventListener('input', () => {
-        item.value = item.value.replace((/[^а-я, -.?!)(,:]/),'');
-    });
-});
-
-// Ограничения ввода полей Сумма
-inputsSum.forEach( item => {
-    item.addEventListener('input', () => {
-        item.value = item.value.replace((/[^0-9]/),'');
-    });
-});
 
 
 
