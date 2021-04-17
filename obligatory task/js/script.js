@@ -118,6 +118,7 @@ AppData.prototype.reset = function () {
     }
 
 };
+
 // вывод результатов справа
 AppData.prototype.showResult = function() {
     budgetMonthValue.value = this.budgetMonth;
@@ -133,6 +134,7 @@ AppData.prototype.showResult = function() {
         incomePeriodValue.value = this.calcPeriod();
     });
 };
+
 // Добавление новых полей
 AppData.prototype.addExpensesBlock = function () {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
@@ -145,6 +147,7 @@ AppData.prototype.addExpensesBlock = function () {
         expensesPlus.style.display = 'none';
     }
 };
+
 // получение названия и значения обязателных расходов
 AppData.prototype.getExpenses = function () {
     const _this = this;
@@ -156,6 +159,7 @@ AppData.prototype.getExpenses = function () {
         }
     });
 };
+
 // добавление полей дополнительного дохода
 AppData.prototype.addIncomeBlock = function() {
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
@@ -168,6 +172,7 @@ AppData.prototype.addIncomeBlock = function() {
         incomePlus.style.display = 'none';
     }
 };
+
 // Дополнительный доход
 AppData.prototype.getIncome = function() { 
     incomeItems.forEach( item => {
@@ -181,8 +186,8 @@ AppData.prototype.getIncome = function() {
     for (const key in this.income) {
         this.incomeMonth += +this.income[key];
     }
-
 };
+
 // Получение названий возможных расходов
 AppData.prototype.getAddExpenses = function() {
     let addExpenses = additionalExpensesItem.value.split(',');
@@ -194,6 +199,7 @@ AppData.prototype.getAddExpenses = function() {
         }
     });
 };
+
 // Получение названий возможного дохода
 AppData.prototype.getAddIncome = function() {
     additionalIncomeItem.forEach(item => {
@@ -203,21 +209,25 @@ AppData.prototype.getAddIncome = function() {
         }
     }); 
 };
+
 // Сумма расходов
 AppData.prototype.getExpensesMonth = function() {
     for (const key in this.expenses) {
         this.expensesMonth += +this.expenses[key];
     }
 };
+
 // Накопления за месяц и день
 AppData.prototype.getBudget = function() {
     this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
     this.budgetDay = Math.floor(this.budgetMonth / 30);
 };
+
 // Период для достижения цели
 AppData.prototype.getTargetMonth = function() {
     return Math.ceil(targetAmount.value / this.budgetMonth);
 };
+
 // Определение уровня дохода
 AppData.prototype.getStatusIncome = function() {
     let status;
@@ -232,6 +242,7 @@ AppData.prototype.getStatusIncome = function() {
     }
     return status;
 };
+
 // Данные о депозите
 AppData.prototype.getInfoDeposit = function () {
     if (this.deposit) {
@@ -245,6 +256,7 @@ AppData.prototype.getInfoDeposit = function () {
         }
     }
 };
+
 // Сколько заработаем за  период
 AppData.prototype.calcPeriod = function () {
     return this.budgetMonth * periodSelect.value;
