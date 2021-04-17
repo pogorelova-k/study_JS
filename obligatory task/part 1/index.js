@@ -25,6 +25,6 @@ DomElement.prototype.createElement = function () {
     document.body.append(elem);
 };
 
-const domElem = new DomElement('#text', '300px', '500px', 'mediumturquoise', '140px');
+const domElem = new DomElement('#bold', '300px', '500px', 'mediumturquoise', '140px');
 
 domElem.createElement();
