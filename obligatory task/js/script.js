@@ -47,7 +47,7 @@ const AppData = function () {
     this.expensesMonth = 0;
 };
 
-AppData.prototype.check = function() {
+AppData.prototype.check = () => {
     if (salaryAmount.value !== '') {
         start.disabled = false;
     } 
@@ -76,7 +76,7 @@ AppData.prototype.start = function(money) {
     this.showResult();
 };
 
-AppData.prototype.reset = function () {
+AppData.prototype.reset = () => {
     start.style.display = 'block';
     cancel.style.display = 'none';
 
@@ -150,12 +150,11 @@ AppData.prototype.addExpensesBlock = function () {
 
 // получение названия и значения обязателных расходов
 AppData.prototype.getExpenses = function () {
-    const _this = this;
-    expensesItems.forEach(function(item) {
+    expensesItems.forEach((item) => {
         let itemExpenses = item.querySelector('.expenses-title').value;
         let cashExpenses = item.querySelector('.expenses-amount').value;
         if (itemExpenses !== '' && cashExpenses!== '') {
-            _this.expenses[itemExpenses] = cashExpenses; 
+            this.expenses[itemExpenses] = cashExpenses; 
         }
     });
 };
