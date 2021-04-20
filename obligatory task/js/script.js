@@ -51,15 +51,24 @@ class AppData {
     }
     
     check() {
-        if (salaryAmount.value !== '') {
+        if (depositCheck.checked) {
+            if (depositPercent.value !== '' && salaryAmount.value !== '') {
+                start.disabled = false;
+            }
+        } else if (salaryAmount.value !== '') {
             start.disabled = false;
-        } 
+        }
     }
 
     start(money) { 
-        if (salaryAmount.value === '') {
+        if (depositCheck.checked) {
+            if (depositPercent.value === '' && salaryAmount.value === '') {
+                start.disabled = true;
+            }
+        } else if (salaryAmount.value === '') {
             start.disabled = true;
-        } 
+        }
+
         start.style.display = 'none';
         cancel.style.display = 'block';
     
@@ -81,6 +90,11 @@ class AppData {
     reset() {
         start.style.display = 'block';
         cancel.style.display = 'none';
+        depositPercent.style.display = 'none';
+        depositBank.style.display = 'none';
+        depositAmount.style.display = 'none';
+        
+        
     
         start.disabled = true;
         
@@ -100,6 +114,8 @@ class AppData {
         this.budgetDay = 0;
         this.budgetMonth = 0;
         this.expensesMonth = 0;
+        depositCheck.checked = false;
+        depositBank.value = '';
     
         const allInputs = document.querySelectorAll('input');
         allInputs.forEach(item => {
@@ -248,16 +264,27 @@ class AppData {
         }
     }
 
+    checkDeposit() {
+        depositPercent.addEventListener('input', () => {
+            depositPercent.value = depositPercent.value.replace((/[^0-9]/),''); //определяем ввод только цифр
+            while (((depositPercent.value > 100) || (depositPercent.value < 0)) ) {
+                depositPercent.value = '';
+                alert('Введите корректное значение в поле проценты');
+            } 
+            this.check();
+        });
+        
+    }
+
     changePercent() {
-        const valueSelect = this.value;
+        const valueSelect = depositBank.value;
         if (valueSelect === 'other') {
             depositPercent.style.display = 'inline-block';
+            this.checkDeposit();
         } else {
             depositPercent.value = valueSelect;
             depositPercent.style.display = 'none';
         }
-        
-
     }
 
     // Сколько заработаем за  период
@@ -266,12 +293,11 @@ class AppData {
     }
 
     depositHandler() {
-        // depositPercent
         if (depositCheck.checked) {
             depositBank.style.display = 'inline-block';
             depositAmount.style.display = 'inline-block';
             this.deposit = true;
-            depositBank.addEventListener('change', this.changePercent);
+            depositBank.addEventListener('change', this.changePercent.bind(this));
         } else {
             depositBank.style.display = 'none';
             depositAmount.style.display = 'none';
@@ -279,7 +305,7 @@ class AppData {
             depositAmount.value = '';
             depositPercent.value = '';
             this.deposit = false;
-            depositBank.removeEventListener('change', this.changePercent);
+            // depositBank.removeEventListener('change', this.changePercent);
         }
     }
 
