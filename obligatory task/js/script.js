@@ -7,6 +7,8 @@ const   start = document.getElementById('start'),
         inputsName = document.querySelectorAll('input[placeholder="Наименование"]'),
         inputsSum = document.querySelectorAll('input[placeholder="Сумма"]'),
         data = document.querySelector('.data'),
+        result = document.querySelector('.result'),
+        resultInput = result.querySelectorAll('input'),
 
         budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
         budgetDayhValue = document.getElementsByClassName('budget_day-value')[0],
@@ -60,6 +62,60 @@ class AppData {
         }
     }
 
+    dataSaved() {
+        let resultData = [];
+        resultData = JSON.parse(localStorage.result);
+        resultInput.forEach((item, index) => {
+            resultInput[index].value = resultData[index];
+        });
+
+        start.style.display = 'none';
+        cancel.style.display = 'block';
+
+        dataInputText = data.querySelectorAll('input[type="text"]');
+        dataInputText.forEach( item => {
+            item.disabled = true;
+        });
+        document.querySelector('input[type="checkbox"]').disabled = true;
+
+        this.checkStorage(); //!Удаляются куки и локал сторедж после обновленя
+    }
+
+    checkStorage() {
+        let resultData = JSON.parse(localStorage.result);
+        let cookieData = document.cookie.split('; ');
+        let key = [],
+            value = [],
+            cookieValue,
+            cookies = {};
+            
+        cookieData.forEach((item, i) => {
+            key.push(item.substr(0, item.indexOf('=')));
+            value.push(item.substr(item.indexOf('=')+1, item.length));
+            cookies[key[i]] = value[i];
+        });
+
+        cookieValue = value.slice(0, value.length-1);
+        resultData.forEach((itemLocal, i) => {
+            if (itemLocal !== cookieValue[i]) {
+                document.cookie = `budgetMonthValue=${cookies.budgetMonthValue}}; max-age=0 `;
+                document.cookie = `budgetDayhValue=${cookies.budgetDayhValue}}; max-age=0 `;
+                document.cookie = `expensesMonthValue=${cookies.expensesMonthValue}}; max-age=0 `;
+                document.cookie = `additionalIncomeValue=${cookies.additionalIncomeValue}}; max-age=0 `;
+                document.cookie = `additionalExpensesValue=${cookies.additionalExpensesValue}}; max-age=0 `;
+                document.cookie = `incomePeriodValue=${cookies.incomePeriodValue}}; max-age=0 `;
+                document.cookie = `targetMonthValue=${cookies.targetMonthValue}}; max-age=0 `;
+                document.cookie = `isLoad=${cookies.isLoad}}; max-age=0 `;
+
+                localStorage.clear();
+                
+                this.reset(); 
+
+                window.location.reload();
+            }
+        });
+    }
+
     start(money) { 
         if (depositCheck.checked) {
             if (depositPercent.value === '' && salaryAmount.value === '') {
@@ -85,6 +141,23 @@ class AppData {
         this.getInfoDeposit();
         this.getBudget();
         this.showResult();
+
+        
+        document.cookie = `budgetMonthValue=${budgetMonthValue.value}; max-age=10000`;
+        document.cookie = `budgetDayhValue=${budgetDayhValue.value}; max-age=10000`;
+        document.cookie = `expensesMonthValue=${expensesMonthValue.value}; max-age=10000`;
+        document.cookie = `additionalIncomeValue=${additionalIncomeValue.value}; max-age=10000`;
+        document.cookie = `additionalExpensesValue=${additionalExpensesValue.value}; max-age=10000`;
+        document.cookie = `incomePeriodValue=${incomePeriodValue.value}; max-age=10000`;
+        document.cookie = `targetMonthValue=${targetMonthValue.value}; max-age=10000`;
+
+        let resultData = [];
+        resultInput.forEach((item, index) =>{
+            resultData.push(item.value);
+        });
+
+        localStorage.result = JSON.stringify(resultData);
+        document.cookie = `isLoad=true`;
     }
 
     reset() {
@@ -99,6 +172,7 @@ class AppData {
         dataInputText.forEach( item => {
             item.disabled = false;
         });
+        document.querySelector('input[type="checkbox"]').disabled = false;
 
         this.income = {}; //Доход 
         this.incomeMonth = 0;
@@ -114,6 +188,7 @@ class AppData {
         this.expensesMonth = 0;
         depositCheck.checked = false;
         depositBank.value = '';
+        localStorage.clear();
     
         const allInputs = document.querySelectorAll('input');
         allInputs.forEach(item => {
@@ -343,10 +418,8 @@ class AppData {
 }
 
 const appData = new AppData();
-
+if (localStorage.length !== 0) {
+    appData.dataSaved();
+}
 appData.eventListeners();
-
-
-
-
 
