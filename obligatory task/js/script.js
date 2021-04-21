@@ -1,6 +1,6 @@
 "use strict";
 
-const     start = document.getElementById('start'),
+const   start = document.getElementById('start'),
         cancel = document.getElementById('cancel'),
         depositCheck = document.querySelector('#deposit-check'),
         additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
@@ -93,9 +93,7 @@ class AppData {
         depositPercent.style.display = 'none';
         depositBank.style.display = 'none';
         depositAmount.style.display = 'none';
-        
-        
-    
+
         start.disabled = true;
         
         dataInputText.forEach( item => {
