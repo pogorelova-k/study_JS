@@ -1,9 +1,11 @@
 /* eslint-disable indent */
 
 window.addEventListener('DOMContentLoaded', () => {
-    // eslint-disable-next-line strict
-    'use strict';
+    'strict';
 
+	const idInterval = setInterval(countTimer, 1000, '22 april 2021');
+
+	// Timer
 	function countTimer(deadline) {
 		const   timerHours = document.querySelector('#timer-hours'),
 				timerMinutes = document.querySelector('#timer-minutes'),
@@ -19,23 +21,34 @@ window.addEventListener('DOMContentLoaded', () => {
 			return { timeRemaining, hours, minutes, seconds };
 		}
 
+		// функция добавляет ноль, если число меньше 10
+		function addNullBefore(val) {
+			if (val < 10) {
+				return '0';
+			} else {
+				return '';
+			}
+		}
+
 		function updateClock() {
 			const timer = getTimeRemaining();
 
-			timerHours.textContent = timer.hours;
-			timerMinutes.textContent = timer.minutes;
-			timerSeconds.textContent = timer.seconds;
+			timerHours.textContent = addNullBefore(timer.hours) + timer.hours;
+			timerMinutes.textContent = addNullBefore(timer.minutes) + timer.minutes;
+			timerSeconds.textContent = addNullBefore(timer.seconds) + timer.seconds;
 
-			// if (timer.timeRemaining > 0) {
-			// 	setTimeout(updateClock, 1000);
-			// }
+			if (timer.timeRemaining < 0) {
+				clearInterval(idInterval);
+				timerHours.textContent = '00';
+				timerMinutes.textContent = '00';
+				timerSeconds.textContent = '00';
+			}
+
 		}
 
-		setInterval(updateClock, 1000);
-		// updateClock();
+		updateClock();
+
 	}
 
-	countTimer('22 april 2021');
-
-
 });
+// const idInterval = setInterval(updateClock, 1000);
