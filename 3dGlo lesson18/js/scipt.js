@@ -26,14 +26,16 @@ window.addEventListener('DOMContentLoaded', () => {
 			timerMinutes.textContent = timer.minutes;
 			timerSeconds.textContent = timer.seconds;
 
-			if (timer.timeRemaining > 0) {
-				setTimeout(updateClock, 1000);
-			}
+			// if (timer.timeRemaining > 0) {
+			// 	setTimeout(updateClock, 1000);
+			// }
 		}
 
-		updateClock();
+		setInterval(updateClock, 1000);
+		// updateClock();
 	}
 
 	countTimer('22 april 2021');
+
 
 });
