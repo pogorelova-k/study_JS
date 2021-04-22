@@ -3,7 +3,7 @@
 window.addEventListener('DOMContentLoaded', () => {
     'strict';
 
-	const idInterval = setInterval(countTimer, 1000, '22 april 2021');
+	const idInterval = setInterval(countTimer, 10, '30 april 2021');
 
 	// Timer
 	function countTimer(deadline) {
@@ -18,6 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
 				hours = Math.floor((timeRemaining / 60) / 60) % 24,
 				minutes = Math.floor((timeRemaining / 60) % 60),
 				seconds = Math.floor(timeRemaining % 60);
+
 			return { timeRemaining, hours, minutes, seconds };
 		}
 
@@ -47,8 +48,65 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 
 		updateClock();
-
 	}
 
+	// menu
+	const toggleMeenu = () => {
+		const 	btnMenu = document.querySelector('.menu'),
+				menu = document.querySelector('menu'),
+				closeBtn = document.querySelector('.close-btn'),
+				menuItems = menu.querySelectorAll('ul>li');
+
+		const handlerMenu = () => {
+			menu.classList.toggle('active-menu');
+		};
+
+		btnMenu.addEventListener('click', handlerMenu);
+		closeBtn.addEventListener('click', handlerMenu);
+
+		menuItems.forEach(elem => elem.addEventListener('click', handlerMenu));
+	};
+
+	// popup
+	const togglePopup = () => {
+		const 	popup = document.querySelector('.popup'),
+				popupContent = document.querySelector('.popup-content'),
+				popupBtn = document.querySelectorAll('.popup-btn'),
+				popupClose = document.querySelector('.popup-close');
+
+		let 	count = 0,
+				AnimationInterval;
+
+		const animationPopup = () => {
+
+			AnimationInterval = requestAnimationFrame(animationPopup);
+			count++;
+			if (count < 60) {
+				popupContent.style.top = count * 3 + 'px';
+			} else {
+				cancelAnimationFrame(AnimationInterval);
+			}
+		};
+
+		popupBtn.forEach(elem => {
+			elem.addEventListener('click', () => {
+				popup.style.display = 'block';
+
+				if (window.innerWidth > 768) {
+					AnimationInterval = requestAnimationFrame(animationPopup);
+				}
+			});
+		});
+
+		popupClose.addEventListener('click', () => {
+			popup.style.display = 'none';
+			cancelAnimationFrame(AnimationInterval);
+			popup.style.top = 0;
+			count = 0;
+		});
+	};
+
+	toggleMeenu();
+	togglePopup();
 });
-// const idInterval = setInterval(updateClock, 1000)
+
