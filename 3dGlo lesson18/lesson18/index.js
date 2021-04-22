@@ -48,4 +48,6 @@ function displayDate() {
     document.body.innerHTML = div;
 }
 
-displayDate();
+setInterval(() => {
+    displayDate();
+}, 1000);
