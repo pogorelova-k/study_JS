@@ -44,11 +44,23 @@ window.addEventListener('DOMContentLoaded', () => {
 				timerMinutes.textContent = '00';
 				timerSeconds.textContent = '00';
 			}
-
 		}
 
 		updateClock();
 	}
+
+	// плавный скролл на кнопку down в main
+	const scroll = () => {
+		const downBtn = document.querySelector('main>a');
+
+		downBtn.addEventListener('click', () => {
+			const id = downBtn.getAttribute('href');
+			document.querySelector(id).scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
+		});
+	};
 
 	// menu
 	const toggleMeenu = () => {
@@ -57,6 +69,21 @@ window.addEventListener('DOMContentLoaded', () => {
 				closeBtn = document.querySelector('.close-btn'),
 				menuItems = menu.querySelectorAll('ul>li');
 
+		// плавный скролл меню
+		const scrollMenu = () => {
+			for (const menuItem of menuItems) {
+				menuItem.addEventListener("click", event => {
+					// отключаем обычный способ возвращения наверх
+					event.preventDefault();
+					// задаем свои свойства скролла, делаем плавно
+					const id = event.target.getAttribute('href');
+					document.querySelector(id).scrollIntoView({
+						behavior: "smooth",
+						block: "start",
+					});
+				});
+			}
+		};
 		const handlerMenu = () => {
 			menu.classList.toggle('active-menu');
 		};
@@ -65,6 +92,8 @@ window.addEventListener('DOMContentLoaded', () => {
 		closeBtn.addEventListener('click', handlerMenu);
 
 		menuItems.forEach(elem => elem.addEventListener('click', handlerMenu));
+
+		scrollMenu();
 	};
 
 	// popup
@@ -108,5 +137,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	toggleMeenu();
 	togglePopup();
+	scroll();
 });
 
