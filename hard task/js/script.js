@@ -1,22 +1,39 @@
-'use strict';
+/* eslint-disable no-undef */
+'strict';
 
-let wrapper = document.querySelector('.wrapper'),
-    button = document.querySelector('button'),   
-    color = document.getElementById('color'),
-    change = document.getElementById('change'),
-    body = document.querySelector('body');
+const   input = document.getElementById('input');
+text = document.getElementById('text');
 
-function randColor(elem) {
+// Передаем функцию и миллисеккунды
+const debounce = (fn, msec) => {
 
-let r = Math.floor(Math.random() * (256)),
-    g = Math.floor(Math.random() * (256)),
-    b = Math.floor(Math.random() * (256)),
-    colorNum = '#' + r.toString(16) + g.toString(16) + b.toString(16);
+    let lastCall = 0,
+        lastCallTimer = 0; // id таймера
 
-    elem.style.background = colorNum;
-    color.innerText = colorNum;
-}
+    return (...args) => {
+        const previousCall = lastCall;
+        lastCall = Date.now();
+        // проверка был ли previousCall
+        if (previousCall && (lastCall - previousCall) < msec) {
+            // если не прошло msec, то сбрасываем таймер lastCallTimer
+            clearInterval(lastCallTimer);
+        }
 
-button.addEventListener('click', () => {
-    randColor(body);
-});
+        // таймер который запускаем при вызове
+        lastCallTimer = setTimeout(() => fn(...args), msec);
+
+    };
+};
+
+const showText = () => {
+    text.textContent = input.value;
+};
+
+const showTextDebounce = debounce(showText, 300);
+
+setInterval(() => {
+    showTextDebounce();
+}, 400);
+
+// Если прошло больше 300 мили секунд, то сообщение НЕ выведется,
+// Если прошло меньше 300 мили секунд то выведется
