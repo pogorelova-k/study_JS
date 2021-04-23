@@ -3,8 +3,6 @@
 window.addEventListener('DOMContentLoaded', () => {
     'strict';
 
-	const idInterval = setInterval(countTimer, 10, '30 april 2021');
-
 	// Timer
 	function countTimer(deadline) {
 		const   timerHours = document.querySelector('#timer-hours'),
@@ -47,7 +45,10 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 
 		updateClock();
+		const idInterval = setInterval(updateClock, 1000);
 	}
+
+	countTimer('30 april 2021');
 
 	// плавный скролл меню
 	const scroll = () => {
@@ -127,4 +128,3 @@ window.addEventListener('DOMContentLoaded', () => {
 	togglePopup();
 	scroll();
 });
-
