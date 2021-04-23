@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable indent */
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -37,6 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			timerSeconds.textContent = addNullBefore(timer.seconds) + timer.seconds;
 
 			if (timer.timeRemaining < 0) {
+				// eslint-disable-next-line no-use-before-define
 				clearInterval(idInterval);
 				timerHours.textContent = '00';
 				timerMinutes.textContent = '00';
@@ -89,8 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	const togglePopup = () => {
 		const 	popup = document.querySelector('.popup'),
 				popupContent = document.querySelector('.popup-content'),
-				popupBtn = document.querySelectorAll('.popup-btn'),
-				popupClose = document.querySelector('.popup-close');
+				popupBtn = document.querySelectorAll('.popup-btn');
 
 		let 	count = 0,
 				AnimationInterval;
@@ -116,15 +117,64 @@ window.addEventListener('DOMContentLoaded', () => {
 			});
 		});
 
-		popupClose.addEventListener('click', () => {
-			popup.style.display = 'none';
-			cancelAnimationFrame(AnimationInterval);
-			popup.style.top = 0;
-			count = 0;
+		popup.addEventListener('click', event => {
+			let target = event.target;
+
+			if (target.classList.contains('popup-close')) {
+				popup.style.display = 'none';
+				cancelAnimationFrame(AnimationInterval);
+				popup.style.top = 0;
+				count = 0;
+			} else {
+				// при клике по МО - получим МО. Если вне его, получим null
+				target = target.closest('.popup-content');
+
+				if (!target) {
+					popup.style.display = 'none';
+					cancelAnimationFrame(AnimationInterval);
+					popup.style.top = 0;
+					count = 0;
+				}
+			}
+		});
+	};
+
+	// табы
+	const tabs = () => {
+		const 	tabHeader = document.querySelector('.service-header'),
+				tab = tabHeader.querySelectorAll('.service-header-tab'),
+				tabContent = document.querySelectorAll('.service-tab');
+
+		const toglleTabContent = index => {
+			for (let i = 0; i < tabContent.length; i++) {
+				if (index === i) {
+					tab[i].classList.add('active');
+					tabContent[i].classList.remove('d-none');
+				} else {
+					tab[i].classList.remove('active');
+					tabContent[i].classList.add('d-none');
+				}
+			}
+		};
+
+		tabHeader.addEventListener('click', event => {
+			let target = event.target;
+			// closest() - проверяет у элемента селектор =>
+			// => если соответсвует, то возвращает этот элемент в таргет
+			// если нет, тогда он поднимается к родителю и проверяет, пока не найдёт
+			target = target.closest('.service-header-tab');
+			if (target) {
+				tab.forEach((item, i) => {
+					if	(item === target) {
+						toglleTabContent(i);
+					}
+				});
+			}
 		});
 	};
 
 	toggleMeenu();
 	togglePopup();
 	scroll();
+	tabs();
 });
