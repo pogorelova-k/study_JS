@@ -186,12 +186,20 @@ window.addEventListener('DOMContentLoaded', () => {
 	// swiper portfolio
 	const slider = () => {
 		const 	slide = document.querySelectorAll('.portfolio-item'),
-				btn = document.querySelectorAll('.portfolio-btn'),
-				dot = document.querySelectorAll('.dot'),
-				slider = document.querySelector('.portfolio-content');
+				slider = document.querySelector('.portfolio-content'),
+				dots = document.querySelector('.portfolio-dots');
 		//Текущий номер слайда
 		let currentSlide = 0,
 			interval;
+
+		slide.forEach(() => {
+			const li = document.createElement('li');
+			li.classList.add('dot');
+			dots.append(li);
+			dots.firstChild.classList.add('dot-active');
+		});
+
+		const	dot = document.querySelectorAll('.dot');
 
 		const prevSlide = (elem, index, strClass) => {
 			elem[index].classList.remove(strClass);
