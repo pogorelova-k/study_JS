@@ -95,7 +95,7 @@ class ToDo {
     handler() {
         const todoContainer = document.querySelector('.todo-container');
 
-        todoContainer.addEventListener('click', event => {
+        todoContainer.onclick = event => {
             const target = event.target;
             if (target.classList.contains('todo-complete')) {
                 const keyOnclick = target.closest('.todo-item').key;
@@ -109,7 +109,7 @@ class ToDo {
                 const text = target.closest('.todo-item').querySelector('.text-todo');
                 this.editItem(text);
             }
-        });
+        };
     }
 
     init() {
