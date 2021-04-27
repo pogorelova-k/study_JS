@@ -30,6 +30,7 @@ class ToDo {
         li.insertAdjacentHTML('beforeend', `
             <span class="text-todo">${todo.value}</span>
 			<div class="todo-buttons">
+                <button class="todo-edit"></button>
 				<button class="todo-remove"></button>
 				<button class="todo-complete"></button>
 			</div>`);
@@ -70,7 +71,6 @@ class ToDo {
     deleteItem(key) {
         this.todoData.forEach((item, index) => {
             if (index === key) {
-                console.log(key);
                 this.todoData.delete(key);
             }
             this.render();
@@ -87,9 +87,14 @@ class ToDo {
         });
     }
 
+    editItem(text) {
+        text.setAttribute('contenteditable', true);
+    }
+
     // обработчик событий
     handler() {
         const todoContainer = document.querySelector('.todo-container');
+
         todoContainer.addEventListener('click', event => {
             const target = event.target;
             if (target.classList.contains('todo-complete')) {
@@ -99,6 +104,10 @@ class ToDo {
             if (target.classList.contains('todo-remove')) {
                 const keyOnclick = target.closest('.todo-item').key;
                 this.deleteItem(keyOnclick);
+            }
+            if (target.classList.contains('todo-edit')) {
+                const text = target.closest('.todo-item').querySelector('.text-todo');
+                this.editItem(text);
             }
         });
     }
