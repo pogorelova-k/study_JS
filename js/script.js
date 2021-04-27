@@ -64,8 +64,15 @@ class ToDo {
     }
 
     // найти по ключу элемент и удалить из new Map()
-    deleteItem() {
-
+    deleteItem(key) {
+        this.todoData.forEach((item, index) => {
+            if (index === key) {
+                console.log(key);
+                this.todoData.delete(key);
+                // this.todoData.splice(index, 1);
+            }
+            this.render();
+        });
     }
 
     // Перебрать элемент todoData и найти элемент по которому мы кликнули и поменять значение completed
@@ -87,6 +94,10 @@ class ToDo {
             if (target.classList.contains('todo-complete')) {
                 const keyOnclick = target.closest('.todo-item').key;
                 this.completedItem(keyOnclick);
+            }
+            if (target.classList.contains('todo-remove')) {
+                const keyOnclick = target.closest('.todo-item').key;
+                this.deleteItem(keyOnclick);
             }
         });
 
