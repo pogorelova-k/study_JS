@@ -54,6 +54,7 @@ class ToDo {
             };
             // добавляем в todoData по ключу и объекту
             this.todoData.set(newTodo.key, newTodo);
+            this.input.value = '';
             this.render();
         }
     }
