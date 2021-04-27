@@ -87,8 +87,26 @@ class ToDo {
         });
     }
 
-    editItem(text) {
-        text.setAttribute('contenteditable', true);
+    editItem(li) {
+        const todoText = li.querySelector('.text-todo'),
+            todoTextContent = todoText.textContent;
+
+        todoText.setAttribute('contenteditable', true);
+
+        document.querySelector('.todo-container').onclick = event => {
+            const target = event.target;
+            if (target === todoText) {
+                console.log(1);
+            } else if (todoText.textContent !== todoTextContent) {
+                todoText.setAttribute('contenteditable', false);
+                this.todoData.forEach(item => {
+                    if (item.key === li.key) {
+                        item.value = todoText.textContent;
+                    }
+                    this.render();
+                });
+            }
+        };
     }
 
     // обработчик событий
@@ -96,18 +114,17 @@ class ToDo {
         const todoContainer = document.querySelector('.todo-container');
 
         todoContainer.onclick = event => {
-            const target = event.target;
+            const  target = event.target,
+                keyOnclick = target.closest('.todo-item').key;
+
             if (target.classList.contains('todo-complete')) {
-                const keyOnclick = target.closest('.todo-item').key;
                 this.completedItem(keyOnclick);
             }
             if (target.classList.contains('todo-remove')) {
-                const keyOnclick = target.closest('.todo-item').key;
                 this.deleteItem(keyOnclick);
             }
             if (target.classList.contains('todo-edit')) {
-                const text = target.closest('.todo-item').querySelector('.text-todo');
-                this.editItem(text);
+                this.editItem(target.closest('.todo-item'));
             }
         };
     }
