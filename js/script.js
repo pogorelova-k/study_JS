@@ -66,19 +66,18 @@ class ToDo {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
-    // найти по ключу элемент и удалить из new Map()
+    // поиск по ключу элемента и удаление его из new Map()
     deleteItem(key) {
         this.todoData.forEach((item, index) => {
             if (index === key) {
                 console.log(key);
                 this.todoData.delete(key);
-                // this.todoData.splice(index, 1);
             }
             this.render();
         });
     }
 
-    // Перебрать элемент todoData и найти элемент по которому мы кликнули и поменять значение completed
+    // поменять значение completed у элемента todoData, по которому кликнули
     completedItem(key) {
         this.todoData.forEach(item => {
             if (item.key === key) {
@@ -89,7 +88,6 @@ class ToDo {
     }
 
     // обработчик событий
-    // метод который определяет на какую кнопку кликнули
     handler() {
         const todoContainer = document.querySelector('.todo-container');
         todoContainer.addEventListener('click', event => {
@@ -103,7 +101,6 @@ class ToDo {
                 this.deleteItem(keyOnclick);
             }
         });
-
     }
 
     init() {
