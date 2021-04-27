@@ -56,6 +56,8 @@ class ToDo {
             this.todoData.set(newTodo.key, newTodo);
             this.input.value = '';
             this.render();
+        } else {
+            alert('Пустое дело добавлять нельзя!');
         }
     }
 
