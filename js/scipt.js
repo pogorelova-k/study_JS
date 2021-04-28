@@ -5,7 +5,17 @@ window.addEventListener('DOMContentLoaded', () => {
     'strict';
 
 	const commandPhoto = document.querySelectorAll('.command__photo'),
-		calcItem = document.querySelectorAll('input.calc-item');
+		calcItem = document.querySelectorAll('input.calc-item'),
+		userInputs = document.querySelectorAll('input');
+
+	// разрешен только ввод кириллицы в любом регистре, дефиса и пробела
+	userInputs.forEach(input => {
+		if (input.getAttribute('name') === 'user_name' || input.getAttribute('name') === 'user_message') {
+			input.addEventListener('input', () => {
+				input.value = input.value.replace((/[^а-яА-Я -]/), '');
+			});
+		}
+	});
 
 	// Изменение картинок команды, при наведении
 	commandPhoto.forEach(image => {
