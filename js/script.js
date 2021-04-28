@@ -94,7 +94,6 @@ class ToDo {
         todoText.setAttribute('contenteditable', true);
         todoText.style.border = '1px dashed black';
         todoText.style.padding = '5px';
-        // todoText.style.cursor = 'text';
 
         document.querySelector('.todo-container').onclick = event => {
             const target = event.target;
