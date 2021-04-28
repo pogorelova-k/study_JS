@@ -9,22 +9,46 @@ window.addEventListener('DOMContentLoaded', () => {
 		userInputs = document.querySelectorAll('input');
 
 	userInputs.forEach(input => {
-		if (input.getAttribute('name') === 'user_name' || input.getAttribute('name') === 'user_message') {
-			input.addEventListener('input', () => {
-				// разрешен только ввод кириллицы в любом регистре, дефиса и пробела
-				input.value = input.value.replace((/[^а-яА-Я -]/), '');
-			});
-		} else if (input.getAttribute('name') === 'user_email') {
-			input.addEventListener('input', () => {
-				// разрешен только ввод ввод латиницы в любом регистре и спецсимволы
-				input.value = input.value.replace((/[^a-zA-z-@_.!~*']/), '');
-			});
-		} else if (input.getAttribute('name') === 'user_phone') {
-			input.addEventListener('input', () => {
-				// разрешен только ввод цифр, круглых скобок и дефис
-				input.value = input.value.replace((/[^\d()-]/), '');
-			});
-		}
+		input.addEventListener('blur', () => {
+			// убираем удваивающиеся пробелы и дефисы
+			input.value = input.value.replace((/[-]+/gi), '-');
+			input.value = input.value.replace((/[\s]+/gi), ' ');
+
+			// удаляем пробелы и дефисы в начале и конце
+			input.value = input.value.replace((/^-/), '');
+			input.value = input.value.replace((/-$/), '');
+			input.value = input.value.replace((/\s$/gi), '');
+
+			if (input.getAttribute('name') === 'user_name' || input.getAttribute('name') === 'user_message') {
+				if ((/[а-яА-Я\s-]/).test(input.value)) {
+					input.value = input.value.replace((/[^а-яА-Я-\s]/gi), '');
+					input.value = input.value.replace(/(^|\s)\S/g, val => val.toUpperCase());
+					// input.value = input.value.replace(/^|\s(\S)/g, val => val.toLowerCase());
+				}
+				input.addEventListener('input', () => {
+					// разрешен только ввод кириллицы в любом регистре, дефиса и пробела
+					input.value = input.value.replace((/[^а-яА-Я-\s]/), '');
+					input.value = input.value.replace(/(^|\s)\S/g, val => val.toUpperCase());
+					// input.value = input.value.replace(/^|\s(\S)/g, val => val.toLowerCase());
+				});
+			} else if (input.getAttribute('name') === 'user_email') {
+				if ((/[^a-zA-z-@_.!~*']/).test(input.value)) {
+					input.value = input.value.replace((/[^a-zA-z@-_.!~*']/gi), '');
+				}
+				input.addEventListener('input', () => {
+					// разрешен только ввод ввод латиницы в любом регистре и спецсимволы
+					input.value = input.value.replace((/[^a-zA-z-@_.!~*']/), '');
+				});
+			} else if (input.getAttribute('name') === 'user_phone') {
+				if ((/[^\d()-]/).test(input.value)) {
+					input.value = input.value.replace(/[^\d()-]+/gi, '');
+				}
+				input.addEventListener('input', () => {
+					// разрешен только ввод цифр, круглых скобок и дефис
+					input.value = input.value.replace((/[^\d()-]+/), '');
+				});
+			}
+		});
 	});
 
 	// Изменение картинок команды, при наведении
