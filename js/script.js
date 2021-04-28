@@ -67,6 +67,20 @@ class ToDo {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
+    fade(element) {
+        let op = 1;  // initial opacity
+        const timer = setInterval(() => {
+            if (op <= 0.01) {
+                clearInterval(timer);
+                element.style.display = 'none';
+            }
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op -= op * 0.1;
+            console.log('op: ', op);
+        }, 10);
+    }
+
     // поиск по ключу элемента и удаление его из new Map()
     deleteItem(key) {
         this.todoData.forEach((item, index) => {
@@ -82,8 +96,8 @@ class ToDo {
         this.todoData.forEach(item => {
             if (item.key === key) {
                 item.completed = !item.completed;
+                this.render();
             }
-            this.render();
         });
     }
 
@@ -120,16 +134,17 @@ class ToDo {
 
         todoContainer.onclick = event => {
             const  target = event.target,
-                keyOnclick = target.closest('.todo-item').key;
+                keyOnclick = target.closest('.todo-item').key,
+                li = target.closest('.todo-item');
 
             if (target.classList.contains('todo-complete')) {
-                this.completedItem(keyOnclick);
+                this.completedItem(keyOnclick, li);
             }
             if (target.classList.contains('todo-remove')) {
                 this.deleteItem(keyOnclick);
             }
             if (target.classList.contains('todo-edit')) {
-                this.editItem(target.closest('.todo-item'));
+                this.editItem(li);
             }
         };
     }
