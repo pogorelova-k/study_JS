@@ -4,6 +4,14 @@
 window.addEventListener('DOMContentLoaded', () => {
     'strict';
 
+	const commandPhoto = document.querySelectorAll('.command__photo');
+
+	commandPhoto.forEach(image => {
+		image.addEventListener('mouseenter', () => {
+			image.src = image.dataset.img;
+		});
+	});
+
 	// Timer
 	function countTimer(deadline) {
 		const   timerHours = document.querySelector('#timer-hours'),
