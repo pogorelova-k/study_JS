@@ -19,6 +19,11 @@ window.addEventListener('DOMContentLoaded', () => {
 				// разрешен только ввод ввод латиницы в любом регистре и спецсимволы
 				input.value = input.value.replace((/[^a-zA-z-@_.!~*']/), '');
 			});
+		} else if (input.getAttribute('name') === 'user_phone') {
+			input.addEventListener('input', () => {
+				// разрешен только ввод цифр, круглых скобок и дефис
+				input.value = input.value.replace((/[^\d()-]/), '');
+			});
 		}
 	});
 
