@@ -4,11 +4,20 @@
 window.addEventListener('DOMContentLoaded', () => {
     'strict';
 
-	const commandPhoto = document.querySelectorAll('.command__photo');
+	const commandPhoto = document.querySelectorAll('.command__photo'),
+		calcItem = document.querySelectorAll('input.calc-item');
 
+	// Изменение картинок команды, при наведении
 	commandPhoto.forEach(image => {
 		image.addEventListener('mouseenter', () => {
 			image.src = image.dataset.img;
+		});
+	});
+
+	// ввод только цифр для расчёта стоимости
+	calcItem.forEach(input => {
+		input.addEventListener('input', () => {
+			input.value = input.value.replace(/\D/, '');
 		});
 	});
 
