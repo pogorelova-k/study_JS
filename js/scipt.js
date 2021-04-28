@@ -8,11 +8,16 @@ window.addEventListener('DOMContentLoaded', () => {
 		calcItem = document.querySelectorAll('input.calc-item'),
 		userInputs = document.querySelectorAll('input');
 
-	// разрешен только ввод кириллицы в любом регистре, дефиса и пробела
 	userInputs.forEach(input => {
 		if (input.getAttribute('name') === 'user_name' || input.getAttribute('name') === 'user_message') {
 			input.addEventListener('input', () => {
+				// разрешен только ввод кириллицы в любом регистре, дефиса и пробела
 				input.value = input.value.replace((/[^а-яА-Я -]/), '');
+			});
+		} else if (input.getAttribute('name') === 'user_email') {
+			input.addEventListener('input', () => {
+				// разрешен только ввод ввод латиницы в любом регистре и спецсимволы
+				input.value = input.value.replace((/[^a-zA-z-@_.!~*']/), '');
 			});
 		}
 	});
