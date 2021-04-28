@@ -67,6 +67,7 @@ class ToDo {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
+    // плавное скрытие элемента
     fade(element) {
         let op = 1;  // initial opacity
         const timer = setInterval(() => {
@@ -77,7 +78,21 @@ class ToDo {
             element.style.opacity = op;
             element.style.filter = 'alpha(opacity=' + op * 100 + ")";
             op -= op * 0.1;
-            console.log('op: ', op);
+        }, 10);
+    }
+
+    // плавное появление элемента
+    showUp(element) {
+        let op = 0.1;  // initial opacity
+        element.style.opacity = op;
+        const timer = setInterval(() => {
+            if (op >= 0.99) {
+                clearInterval(timer);
+                element.style.display = 'block';
+            }
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op += op * 0.1;
         }, 10);
     }
 
@@ -94,11 +109,19 @@ class ToDo {
     }
 
     // поменять значение completed у элемента todoData, по которому кликнули
-    completedItem(key) {
+    completedItem(key, li) {
         this.todoData.forEach(item => {
             if (item.key === key) {
                 item.completed = !item.completed;
-                this.render();
+                this.addToStorage();
+                if (item.completed) {
+                    this.todoCompleted.append(li);
+                    this.showUp(li);
+                } else {
+                    this.todoList.append(li);
+                    this.showUp(li);
+                }
+                // this.render();
             }
         });
     }
