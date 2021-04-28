@@ -92,19 +92,25 @@ class ToDo {
             todoTextContent = todoText.textContent;
 
         todoText.setAttribute('contenteditable', true);
+        todoText.style.border = '1px dashed black';
+        todoText.style.padding = '5px';
+        // todoText.style.cursor = 'text';
 
         document.querySelector('.todo-container').onclick = event => {
             const target = event.target;
-            if (target === todoText) {
-                console.log(1);
-            } else if (todoText.textContent !== todoTextContent) {
+            if (todoText.textContent !== todoTextContent) {
                 todoText.setAttribute('contenteditable', false);
+                todoText.style.border = 'none';
                 this.todoData.forEach(item => {
                     if (item.key === li.key) {
                         item.value = todoText.textContent;
                     }
                     this.render();
                 });
+            } else if (target !== todoText) {
+                todoText.setAttribute('contenteditable', false);
+                todoText.style.border = 'none';
+                this.render();
             }
         };
     }
