@@ -362,6 +362,8 @@ window.addEventListener('DOMContentLoaded', () => {
 			calcCount = document.querySelector('.calc-count'),
 			calcDay = document.querySelector('.calc-day'),
 			totalValue = document.getElementById('total');
+		let count  = 0,
+			idInterval;
 
 		// подсчёт итоговой суммы
 		const countSum = () => {
@@ -383,11 +385,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
 			if (typeValue && squareValue) {
 				total = price * typeValue * squareValue * countValue * dayValue;
+
+				// анимация итоговой суммы
+				const animationTotalValue = () => {
+					idInterval = requestAnimationFrame(animationTotalValue);
+					count++;
+					if (count < 50) {
+						totalValue.textContent = Math.ceil(Math.random() * total);
+					} else {
+						cancelAnimationFrame(idInterval);
+						totalValue.textContent = total;
+					}
+
+				};
+
+				idInterval = requestAnimationFrame(animationTotalValue);
+
 			} else {
 				total = 0;
 			}
 
-			totalValue.textContent = total;
+			// totalValue.textContent = total;
 		};
 
 		// Любое изменение в блоке калькулятор
