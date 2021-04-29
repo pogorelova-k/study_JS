@@ -19,17 +19,26 @@ window.addEventListener('DOMContentLoaded', () => {
 			input.value = input.value.replace((/-$/), '');
 			input.value = input.value.replace((/\s$/gi), '');
 
-			if (input.getAttribute('name') === 'user_name' || input.getAttribute('name') === 'user_message') {
+			if (input.getAttribute('name') === 'user_name') {
 				if ((/[а-яА-Я\s-]/).test(input.value)) {
 					input.value = input.value.replace((/[^а-яА-Я-\s]/gi), '');
+					input.value = input.value.replace(/(|\s+)\S/g, val => val.toLowerCase());
 					input.value = input.value.replace(/(^|\s)\S/g, val => val.toUpperCase());
-					// input.value = input.value.replace(/^|\s(\S)/g, val => val.toLowerCase());
 				}
 				input.addEventListener('input', () => {
 					// разрешен только ввод кириллицы в любом регистре, дефиса и пробела
 					input.value = input.value.replace((/[^а-яА-Я-\s]/), '');
+					// Первая буква заглавная, остальные прописные
+					input.value = input.value.replace(/(|\s+)\S/g, val => val.toLowerCase());
 					input.value = input.value.replace(/(^|\s)\S/g, val => val.toUpperCase());
-					// input.value = input.value.replace(/^|\s(\S)/g, val => val.toLowerCase());
+				});
+			} else if (input.getAttribute('name') === 'user_message') {
+				if ((/[а-яА-Я\s-]/).test(input.value)) {
+					input.value = input.value.replace((/[^а-яА-Я-\s]/gi), '');
+				}
+				input.addEventListener('input', () => {
+					// разрешен только ввод кириллицы в любом регистре, дефиса и пробела
+					input.value = input.value.replace((/[^а-яА-Я-\s]/), '');
 				});
 			} else if (input.getAttribute('name') === 'user_email') {
 				if ((/[^a-zA-z-@_.!~*']/).test(input.value)) {
