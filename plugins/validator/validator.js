@@ -4,8 +4,8 @@ class Validator {
         this.form = document.querySelector(selector), // селектор формы
         this.pattern = pattern, // кастомные шаблоны, которые можно добавить
         this.method = method; // настройки, которые указывают какие поля будут валидироваться и какие методы применяться
-        this.elementsForm = [...this.form.elements].filter(item => item.tagName.toLowerCase() !== 'button' &&
-        item.type !== 'button');
+        this.elementsForm = [...this.form.elements].filter(item => item.name === 'user_name' ||
+        item.name === 'user_message');
         this.error = new Set(); // сохраняем поле ввода, если там ошибка (без повторений)
     }
 
@@ -104,7 +104,7 @@ class Validator {
             border: 2px solid red;
         }
         .validator-error {
-            font-size: 10px;
+            font-size: 12px;
             font-family: sans-serif;
             color: red;
         }`;
