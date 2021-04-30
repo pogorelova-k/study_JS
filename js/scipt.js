@@ -120,7 +120,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		const idInterval = setInterval(updateClock, 1000);
 	}
 
-	countTimer('30 april 2021');
+	countTimer('30 april 2023');
 
 	// плавный скролл меню
 	const scroll = () => {
@@ -362,8 +362,8 @@ window.addEventListener('DOMContentLoaded', () => {
 			calcCount = document.querySelector('.calc-count'),
 			calcDay = document.querySelector('.calc-day'),
 			totalValue = document.getElementById('total');
-		let count  = 0,
-			idInterval;
+		// let count  = 0,
+		// 	idInterval;
 
 		// подсчёт итоговой суммы
 		const countSum = () => {
@@ -372,6 +372,27 @@ window.addEventListener('DOMContentLoaded', () => {
 				dayValue = 1;
 			const typeValue = calcType.options[calcType.selectedIndex].value,
 			squareValue = +calcSquare.value;
+
+			// Функция запуска анимации
+			function animate({ duration, draw, timing }) {
+				const start = performance.now();
+
+				requestAnimationFrame(function animate(time) {
+
+					let timeFraction = (time - start) / duration;
+
+					if (timeFraction > 1) timeFraction = 1;
+
+					const progress = timing(timeFraction);
+
+					draw(progress);
+
+					if (timeFraction < 1) {
+						requestAnimationFrame(animate);
+					}
+
+				});
+			}
 
 			if (calcCount.value > 1) {
 				countValue += (calcCount.value - 1) / 10;
@@ -387,25 +408,25 @@ window.addEventListener('DOMContentLoaded', () => {
 				total = price * typeValue * squareValue * countValue * dayValue;
 
 				// анимация итоговой суммы
-				const animationTotalValue = () => {
-					idInterval = requestAnimationFrame(animationTotalValue);
-					count++;
-					if (count < 50) {
-						totalValue.textContent = Math.ceil(Math.random() * total);
-					} else {
-						cancelAnimationFrame(idInterval);
-						totalValue.textContent = total;
+				animate({
+					// скорость анимации
+					duration: 1000,
+					// Функция расчёта времени
+					timing(timeFraction) {
+						return timeFraction;
+					},
+					// Функция отрисовки
+					draw(progress) {
+						// в ней мы и производим вывод данных
+						totalValue.textContent = Math.floor(progress * total);
+
 					}
-
-				};
-
-				idInterval = requestAnimationFrame(animationTotalValue);
-
+				});
 			} else {
 				total = 0;
 			}
 
-			// totalValue.textContent = total;
+			totalValue.textContent = total;
 		};
 
 		// Любое изменение в блоке калькулятор
