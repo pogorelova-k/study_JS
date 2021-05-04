@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 			} else if (input.getAttribute('name') === 'user_phone') {
 				// разрешен только ввод цифр, круглых скобок и дефис
-				input.value = input.value.replace((/[^\d()-]+/), '');
+				input.value = input.value.replace((/[^+?\d]+/gi), '');
 			}
 		});
 
@@ -75,7 +75,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			} else if (input.getAttribute('name') === 'user_phone') {
 				if ((/[^\d()-]/).test(input.value)) {
 					// разрешен только ввод цифр, круглых скобок и дефис
-					input.value = input.value.replace((/[^\d()-]+/g), '');
+					input.value = input.value.replace((/[^\d+]+/g), '');
 					// убираем удваивающиеся пробелы и дефисы вне фокуса после вставки
 					input.value = input.value.replace((/[\s]+/g), ' ');
 					input.value = input.value.replace((/[-]+/gi), '-');
