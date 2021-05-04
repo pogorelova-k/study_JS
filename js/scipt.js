@@ -475,11 +475,57 @@ window.addEventListener('DOMContentLoaded', () => {
 		});
 	};
 
+	// send-ajax-form
+	const sendForm = () => {
+		const erorrMessage = 'Что-то пошло не так...',
+			loadMessage = 'Загрузка...',
+			successMesage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+		const form = document.getElementById('form1');
+
+		const statusMessage = document.createElement('div');
+		statusMessage.style.cssText = 'font-size: 2rem;';
+
+		form.addEventListener('submit', event => {
+			event.preventDefault();
+			form.append(statusMessage);
+
+			const request = new XMLHttpRequest();
+
+			// отлавливаем readystatechange и оповещаем пользователя
+			request.addEventListener('readystatechange', () => {
+				statusMessage.textContent = loadMessage;
+
+				if (request.readyState !== 4) {
+					return;
+				}
+
+				if (request.status === 200) {
+					statusMessage.textContent = successMesage;
+				} else {
+					statusMessage.textContent = erorrMessage;
+				}
+			});
+
+			// настриваем соеденение
+			// post - отправка данных на сервер
+			request.open('POST', './server.php');
+			// настройка загловоков
+			// multipart/form-data - даные отправляем с формы
+			request.setRequestHeader('Content-Type', 'multipart/form-data');
+			// получение данных из формы с помощью FormData
+			const formData = new FormData(form);
+			// открываем соединение
+			request.send(formData);
+		});
+
+	};
+
 	toggleMeenu();
 	togglePopup();
 	scroll();
 	tabs();
 	slider();
 	calc(100);
-
+	sendForm();
 });
