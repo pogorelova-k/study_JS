@@ -481,30 +481,28 @@ window.addEventListener('DOMContentLoaded', () => {
 			loadMessage = 'Загрузка...',
 			successMesage = 'Спасибо! Мы скоро с вами свяжемся!';
 
-		const form = document.getElementById('form1');
+		// const form = document.getElementById('form1');
+		const forms = document.querySelectorAll('form');
 
 		const statusMessage = document.createElement('div');
-		statusMessage.style.cssText = 'font-size: 2rem;';
+		statusMessage.style.cssText = 'font-size: 2rem; color: #fff;';
 
-		form.addEventListener('submit', event => {
-			event.preventDefault();
-			form.append(statusMessage);
-
+		// body - данные из формы
+		// outputData - оповещение пользователей
+		// errorData - вывод ошибки
+		const postData = (body, outputData, errorData) => {
 			const request = new XMLHttpRequest();
 
 			// отлавливаем readystatechange и оповещаем пользователя
 			request.addEventListener('readystatechange', () => {
-				statusMessage.textContent = loadMessage;
-
 				if (request.readyState !== 4) {
 					return;
 				}
 
 				if (request.status === 200) {
-					statusMessage.textContent = successMesage;
+					outputData();
 				} else {
-					statusMessage.textContent = erorrMessage;
-					console.error(request.status);
+					errorData(request.status);
 				}
 			});
 
@@ -513,31 +511,50 @@ window.addEventListener('DOMContentLoaded', () => {
 			request.open('POST', './server.php');
 			// настройка заголовков
 			// multipart/form-data - даные отправляем с формы  виде объекта
-			// application/json - отправляем данные в формате json
+			// application/json - отправляем данные в формате json строки
 			request.setRequestHeader('Content-Type', 'application/json');
-			// получение данных из формы с помощью FormData
-			// получаем занчение из всех инпутов формы у которых есть атрибут name
-			const formData = new FormData(form);
-			// извлекаем данные из formData
-			const body = {};
-
-			// вытаскиваем значения из formData с помощью entires() и добавляем в body
-			// for (const val of formData.entries()) {
-			// 	body[val[0]] = val[1];
-			// }
-
-			// другой способ
-			formData.forEach((val, key) => {
-				body[key] = val;
-			});
 
 			// открываем соединение и отправляем наши данные полученные из формы в виде строки
 			request.send(JSON.stringify(body));
 
 			// если сервер будет понимать формат form-data то открываем соединение и отправляем данные
 			// request.send(JSON.stringify(formData));
-		});
+		};
 
+		forms.forEach(form => {
+			// отправка формы
+			form.addEventListener('submit', event => {
+				event.preventDefault();
+				form.append(statusMessage);
+				statusMessage.textContent = loadMessage;
+
+				// получение данных из формы с помощью FormData
+				// получаем значение из всех инпутов формы у которых есть атрибут name
+				const formData = new FormData(form);
+
+				// извлекаем данные из formData
+				const body = {};
+				// вытаскиваем значения из formData с помощью entires() и добавляем в body
+				// for (const val of formData.entries()) {
+				// 	body[val[0]] = val[1];
+				// }
+
+				// другой способ
+				formData.forEach((val, key) => {
+					body[key] = val;
+				});
+
+				postData(body,
+					() => {
+						statusMessage.textContent = successMesage;
+					},
+					error => {
+						statusMessage.textContent = erorrMessage;
+						console.error(error);
+					}
+				);
+			});
+		});
 	};
 
 	toggleMeenu();
