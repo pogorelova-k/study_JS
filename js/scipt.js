@@ -522,6 +522,8 @@ window.addEventListener('DOMContentLoaded', () => {
 		};
 
 		forms.forEach(form => {
+			const inputs = form.querySelectorAll('input');
+
 			// отправка формы
 			form.addEventListener('submit', event => {
 				event.preventDefault();
@@ -553,6 +555,10 @@ window.addEventListener('DOMContentLoaded', () => {
 						console.error(error);
 					}
 				);
+
+				inputs.forEach(item => {
+					item.value = '';
+				});
 			});
 		});
 	};
