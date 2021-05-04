@@ -478,8 +478,12 @@ window.addEventListener('DOMContentLoaded', () => {
 	// send-ajax-form
 	const sendForm = () => {
 		const erorrMessage = 'Что-то пошло не так...',
-			loadMessage = 'Загрузка...',
-			successMesage = 'Спасибо! Мы скоро с вами свяжемся!';
+			successMesage = 'Спасибо! Мы скоро с вами свяжемся!',
+			loadMessage = `<div class="sk-flow sk-center">
+				<div class="sk-flow-dot"></div>
+				<div class="sk-flow-dot"></div>
+				<div class="sk-flow-dot"></div>
+			</div>`;
 
 		// const form = document.getElementById('form1');
 		const forms = document.querySelectorAll('form');
@@ -528,7 +532,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			form.addEventListener('submit', event => {
 				event.preventDefault();
 				form.append(statusMessage);
-				statusMessage.textContent = loadMessage;
+				statusMessage.innerHTML = loadMessage;
 
 				// получение данных из формы с помощью FormData
 				// получаем значение из всех инпутов формы у которых есть атрибут name
