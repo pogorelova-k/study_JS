@@ -504,19 +504,38 @@ window.addEventListener('DOMContentLoaded', () => {
 					statusMessage.textContent = successMesage;
 				} else {
 					statusMessage.textContent = erorrMessage;
+					console.error(request.status);
 				}
 			});
 
 			// настриваем соеденение
 			// post - отправка данных на сервер
 			request.open('POST', './server.php');
-			// настройка загловоков
-			// multipart/form-data - даные отправляем с формы
-			request.setRequestHeader('Content-Type', 'multipart/form-data');
+			// настройка заголовков
+			// multipart/form-data - даные отправляем с формы  виде объекта
+			// application/json - отправляем данные в формате json
+			request.setRequestHeader('Content-Type', 'application/json');
 			// получение данных из формы с помощью FormData
+			// получаем занчение из всех инпутов формы у которых есть атрибут name
 			const formData = new FormData(form);
-			// открываем соединение
-			request.send(formData);
+			// извлекаем данные из formData
+			const body = {};
+
+			// вытаскиваем значения из formData с помощью entires() и добавляем в body
+			// for (const val of formData.entries()) {
+			// 	body[val[0]] = val[1];
+			// }
+
+			// другой способ
+			formData.forEach((val, key) => {
+				body[key] = val;
+			});
+
+			// открываем соединение и отправляем наши данные полученные из формы в виде строки
+			request.send(JSON.stringify(body));
+
+			// если сервер будет понимать формат form-data то открываем соединение и отправляем данные
+			// request.send(JSON.stringify(formData));
 		});
 
 	};
