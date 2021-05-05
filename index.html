@@ -5,9 +5,61 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script>
+        function CBR_XML_Daily_Ru(rates) {
+
+        const USDrate = rates.Valute.USD.Value.toFixed(4).replace('.', ',');
+        const USD = document.getElementById('USD');
+        USD.innerHTML = USD.innerHTML.replace('00,0000', USDrate);
+
+
+        const EURrate = rates.Valute.EUR.Value.toFixed(4).replace('.', ',');
+        const EUR = document.getElementById('EUR');
+        EUR.innerHTML = EUR.innerHTML.replace('00,0000', EURrate);
+
+        }
+    </script>
+    <link rel="dns-prefetch" href="https://www.cbr-xml-daily.ru/" />
+    <script src="//www.cbr-xml-daily.ru/daily_jsonp.js" async></script>
     <script src="script.js" defer></script>
 </head>
 <body>
-    
+    <style>
+        label {
+            margin-right: 40px;
+        }
+        button {
+            margin-top: 10px;
+        }
+        #valute {
+            margin-top: 20px;
+            margin-bottom: 15px;
+            width: 164.8px;
+        }
+    </style>
+
+    <div id="USD">Доллар США $ — 00,0000 руб.</div>
+    <div id="EUR">Евро € — 00,0000 руб.</div>
+
+    <div>
+        <select name="valute" id="valute">
+            <option value="usd">Доллар США(USD)</option>
+            <option value="eur">Евро (EUR)</option>
+        </select>
+
+        <button id="change-btn">⇄</button>
+    </div>
+
+    <div>
+        
+        <input type="text" id="convertible-value" required>
+        <label id="convertible-text">Доллар США(USD)</label>
+
+        <input type="text" id="resulting-value">
+        <label id="resulting-text">Российский рубль(RUB)</label>
+    </div>
+
+    <button type="button" id="convert">Конвертировать</button>
+
 </body>
 </html>
