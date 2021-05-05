@@ -553,10 +553,16 @@ window.addEventListener('DOMContentLoaded', () => {
 				postData(body,
 					() => {
 						statusMessage.textContent = successMesage;
+						setTimeout(() => {
+							statusMessage.textContent = '';
+						}, 5000);
 					},
 					error => {
 						statusMessage.textContent = erorrMessage;
 						console.error(error);
+						setTimeout(() => {
+							statusMessage.textContent = '';
+						}, 5000);
 					}
 				);
 
