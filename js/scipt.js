@@ -386,8 +386,6 @@ window.addEventListener('DOMContentLoaded', () => {
 			calcCount = document.querySelector('.calc-count'),
 			calcDay = document.querySelector('.calc-day'),
 			totalValue = document.getElementById('total');
-		// let count  = 0,
-		// 	idInterval;
 
 		// подсчёт итоговой суммы
 		const countSum = () => {
@@ -492,38 +490,38 @@ window.addEventListener('DOMContentLoaded', () => {
 		statusMessage.style.cssText = 'font-size: 2rem; color: #fff;';
 
 		// body - данные из формы
-		// outputData - оповещение пользователей
-		// errorData - вывод ошибки
-		const postData = (body, outputData, errorData) => {
-			const request = new XMLHttpRequest();
+		// resolve=outputData - оповещение пользователей
+		// reject=errorData - вывод ошибки
+		const postData = body => new Promise((resolve, reject) => {
+				const request = new XMLHttpRequest();
 
-			// отлавливаем readystatechange и оповещаем пользователя
-			request.addEventListener('readystatechange', () => {
-				if (request.readyState !== 4) {
-					return;
-				}
+				// отлавливаем readystatechange и оповещаем пользователя
+				request.addEventListener('readystatechange', () => {
+					if (request.readyState !== 4) {
+						return;
+					}
 
-				if (request.status === 200) {
-					outputData();
-				} else {
-					errorData(request.status);
-				}
+					if (request.status === 200) {
+						resolve();
+					} else {
+						reject(request.status);
+					}
+				});
+
+				// настриваем соеденение
+				// post - отправка данных на сервер
+				request.open('POST', './server.php');
+				// настройка заголовков
+				// multipart/form-data - даные отправляем с формы  виде объекта
+				// application/json - отправляем данные в формате json строки
+				request.setRequestHeader('Content-Type', 'application/json');
+
+				// открываем соединение и отправляем наши данные полученные из формы в виде строки
+				request.send(JSON.stringify(body));
+
+				// если сервер будет понимать формат form-data то открываем соединение и отправляем данные
+				// request.send(JSON.stringify(formData));
 			});
-
-			// настриваем соеденение
-			// post - отправка данных на сервер
-			request.open('POST', './server.php');
-			// настройка заголовков
-			// multipart/form-data - даные отправляем с формы  виде объекта
-			// application/json - отправляем данные в формате json строки
-			request.setRequestHeader('Content-Type', 'application/json');
-
-			// открываем соединение и отправляем наши данные полученные из формы в виде строки
-			request.send(JSON.stringify(body));
-
-			// если сервер будет понимать формат form-data то открываем соединение и отправляем данные
-			// request.send(JSON.stringify(formData));
-		};
 
 		forms.forEach(form => {
 			const inputs = form.querySelectorAll('input');
@@ -550,25 +548,34 @@ window.addEventListener('DOMContentLoaded', () => {
 					body[key] = val;
 				});
 
-				postData(body,
-					() => {
-						statusMessage.textContent = successMesage;
+				// функция для отображения сообщения пользователю
+				const outputData = (time = 5000) => {
+					statusMessage.textContent = successMesage;
 						setTimeout(() => {
 							statusMessage.textContent = '';
-						}, 5000);
-					},
-					error => {
-						statusMessage.textContent = erorrMessage;
-						console.error(error);
-						setTimeout(() => {
-							statusMessage.textContent = '';
-						}, 5000);
-					}
-				);
+						}, time);
+				};
 
-				inputs.forEach(item => {
-					item.value = '';
-				});
+				// функция для отображения ошибки пользователю и в консоль
+				const errorData = (error, time = 5000) => {
+					statusMessage.textContent = erorrMessage;
+					console.error(error);
+					setTimeout(() => {
+						statusMessage.textContent = '';
+					}, time);
+				};
+
+				// функция для очищения полей
+				const deleteInputFormValue = () => {
+					inputs.forEach(item => {
+						item.value = '';
+					});
+				};
+
+				postData(body)
+					.then(outputData)
+					.catch(error => errorData(error))
+					.finally(deleteInputFormValue);
 			});
 		});
 	};
