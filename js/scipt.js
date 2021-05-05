@@ -490,35 +490,17 @@ window.addEventListener('DOMContentLoaded', () => {
         // body - данные из формы
         // resolve=outputData - оповещение пользователей
         // reject=errorData - вывод ошибки
-        const postData = body => new Promise((resolve, reject) => {
-            const request = new XMLHttpRequest();
-
-            // отлавливаем readystatechange и оповещаем пользователя
-            request.addEventListener('readystatechange', () => {
-                if (request.readyState !== 4) {
-                    return;
-                }
-
-                if (request.status === 200) {
-                    resolve();
-                } else {
-                    reject(request.status);
-                }
-            });
-
+        const postData = body => fetch('./server.php', {
             // настриваем соеденение
             // post - отправка данных на сервер
-            request.open('POST', './server.php');
+            method: 'POST',
             // настройка заголовков
-            // multipart/form-data - даные отправляем с формы  виде объекта
             // application/json - отправляем данные в формате json строки
-            request.setRequestHeader('Content-Type', 'application/json');
-
-            // открываем соединение и отправляем наши данные полученные из формы в виде строки
-            request.send(JSON.stringify(body));
-
-            // если сервер будет понимать формат form-data то открываем соединение и отправляем данные
-            // request.send(JSON.stringify(formData));
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // данные из инпутов в формате json
+            body: JSON.stringify(body)
         });
 
         forms.forEach(form => {
@@ -571,7 +553,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 };
 
                 postData(body)
-                    .then(outputData)
+                    .then(response => {
+                        if (response.status !== 200) {
+                            throw new Error('status network not 200');
+                        }
+                        outputData();
+                    })
                     .catch(error => errorData(error))
                     .finally(deleteInputFormValue);
             });
