@@ -1,3 +1,5 @@
+import animate from './animate';
+
 // калькулятор
 const calc = (price = 100) => {
     const calcBlock = document.querySelector('.calc-block'),
@@ -14,27 +16,6 @@ const calc = (price = 100) => {
             dayValue = 1;
         const typeValue = calcType.options[calcType.selectedIndex].value,
             squareValue = +calcSquare.value;
-
-        // Функция запуска анимации
-        function animate({ duration, draw, timing }) {
-            const start = performance.now();
-
-            requestAnimationFrame(function animate(time) {
-
-                let timeFraction = (time - start) / duration;
-
-                if (timeFraction > 1) timeFraction = 1;
-
-                const progress = timing(timeFraction);
-
-                draw(progress);
-
-                if (timeFraction < 1) {
-                    requestAnimationFrame(animate);
-                }
-
-            });
-        }
 
         if (calcCount.value > 1) {
             countValue += (calcCount.value - 1) / 10;
