@@ -4,18 +4,19 @@ const togglePopup = () => {
         popupContent = document.querySelector('.popup-content'),
         popupBtn = document.querySelectorAll('.popup-btn');
 
-    let 	count = 0,
+    let count = 0,
         AnimationInterval;
 
     const animationPopup = () => {
 
         AnimationInterval = requestAnimationFrame(animationPopup);
         count++;
-        if (count < 60) {
-            popupContent.style.top = count * 3 + 'px';
+        if (count < 25) {
+            popupContent.style.top = count * 9 + 'px';
         } else {
             cancelAnimationFrame(AnimationInterval);
         }
+        console.log(count);
     };
 
     popupBtn.forEach(elem => {
