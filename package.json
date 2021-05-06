@@ -1,0 +1,31 @@
+{
+  "name": "study_JS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.config.js",
+    "dev": "webpack serve --config webpack.dev.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pogorelova-k/study_JS.git"
+  },
+  "keywords": [],
+  "author": "Ksenia Pogorelova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pogorelova-k/study_JS/issues"
+  },
+  "homepage": "https://github.com/pogorelova-k/study_JS#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.6.0"
+  },
+  "dependencies": {
+    "webpack-dev-server": "^3.11.2"
+  }
+}

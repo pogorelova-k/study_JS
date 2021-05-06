@@ -1,15 +1,7 @@
 // валидация полей
 const validator = () => {
-    const commandPhoto = document.querySelectorAll('.command__photo'),
-        calcItem = document.querySelectorAll('input.calc-item'),
+    const calcItem = document.querySelectorAll('input.calc-item'),
         userInputs = document.querySelectorAll('input');
-
-    // Изменение картинок команды, при наведении
-    commandPhoto.forEach(image => {
-        image.addEventListener('mouseenter', () => {
-            image.src = image.dataset.img;
-        });
-    });
 
     // ввод только цифр для расчёта стоимости
     calcItem.forEach(input => {
