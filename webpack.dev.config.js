@@ -19,7 +19,7 @@ module.exports = {
     devServer: {
         open: true, //откртый ip адре
         port: 8080,
-        hot: true, //перезагрузка была на горячую
+        hot: false, //перезагрузка была на горячую
         writeToDisk: true, // файл не будет создаваться на диске, если поставить false
     },
     // модуль для babel загрузчика
