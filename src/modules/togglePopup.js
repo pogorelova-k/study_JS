@@ -16,7 +16,6 @@ const togglePopup = () => {
         } else {
             cancelAnimationFrame(AnimationInterval);
         }
-        console.log(count);
     };
 
     popupBtn.forEach(elem => {
