@@ -29,7 +29,7 @@ const validator = () => {
                 }
 
                 if (input.value.length < 51) {
-                    // разрешен только ввод кириллицы в любом регистре, дефиса и пробела
+                    // разрешен только ввод кириллицы в любом регистре и пробела
                     input.value = input.value.replace((/[^а-яА-Я\s]/gi), '');
                 } else {
                     // удаляется строка если она больше 50
@@ -41,8 +41,7 @@ const validator = () => {
                 input.value = input.value.replace(/(^|\s)\S/g, val => val.toUpperCase());
 
             } else if (input.getAttribute('name') === 'user_message') {
-                // разрешен  только кириллицу, пробелы, цифры и знаки препинания
-                // input.value = input.value.replace((/[^а-яА-Я-\s\d:\.,\?!";]/), '');
+                // разрешен ввод символов всех кроме латиницы
                 input.value = input.value.replace((/[a-zA-Z]/), '');
 
             } else if (input.getAttribute('name') === 'user_email') {
@@ -70,7 +69,7 @@ const validator = () => {
                     formBtn.removeAttribute('disabled');
                 }
 
-                // разрешен только ввод цифр, круглых скобок и дефис
+                // разрешен только ввод цифр и +
                 input.value = input.value.replace((/[^+?\d]+/gi), '');
             }
         });
@@ -95,7 +94,7 @@ const validator = () => {
                     }
 
                     if (input.value.length < 51) {
-                        // разрешен только ввод кириллицы в любом регистре, дефиса и пробела
+                        // разрешен только ввод кириллицы в любом регистре и пробела
                         input.value = input.value.replace((/[^а-яА-Я\s]/gi), '');
                     } else {
                         // удаляется строка если она больше 50
@@ -110,7 +109,7 @@ const validator = () => {
 
             } else if (input.getAttribute('name') === 'user_message') {
                 if ((/[a-zA-Z]/).test(input.value)) {
-                    // разрешен только ввод кириллицы в любом регистре, дефиса и пробела
+                    // разрешен ввод символов всех кроме латиницы
                     input.value = input.value.replace((/[a-zA-Z]/gi), '');
 
                     // убираем удваивающиеся пробелы и дефисы вне фокуса после вставки
