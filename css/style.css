@@ -132,6 +132,10 @@ body .main .input-cities label {
   width: 100%;
 }
 
+.dropdown-lists__list--default {
+  display: none;
+}
+
 .dropdown-lists__list--select {
   display: none;
 }

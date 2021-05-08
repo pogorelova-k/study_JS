@@ -44,7 +44,7 @@
         },
         {
             "country": "Германия",
-            "count": 82175684 ,
+            "count": "82175684" ,
             "cities": [
                 {
                     "name": "Берлин",
@@ -70,7 +70,7 @@
         },
         {
             "country": "Англия",
-            "count": 53012456,
+            "count": "53012456",
             "cities": [
                 {
                     "name": "Лондон",
@@ -141,7 +141,7 @@
         },
         {
             "country": "Germany",
-            "count": 82175684 ,
+            "count": "82175684" ,
             "cities": [
                 {
                     "name": "Berlin",
@@ -167,7 +167,7 @@
         },
         {
             "country": "United Kingdom",
-            "count": 53012456,
+            "count": "53012456",
             "cities": [
                 {
                     "name": "London",
@@ -238,7 +238,7 @@
         },
         {
             "country": "Deutschland",
-            "count": 82175684 ,
+            "count": "82175684" ,
             "cities": [
                 {
                     "name": "Berlin",
@@ -264,7 +264,7 @@
         },
         {
             "country": "England",
-            "count": 53012456,
+            "count": "53012456",
             "cities": [
                 {
                     "name": "London",
