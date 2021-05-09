@@ -11,11 +11,25 @@ let listDefault = document.querySelector('.dropdown-lists__list--default'),
     link = '',
     country = '';
 
-const url = '/db_cities copy.json',
+const url = 'https://study-js-a739c-default-rtdb.firebaseio.com/db.json', // json-server на firebase
     input = document.getElementById('select-cities'),
     closeBtn = document.querySelector('.close-button'),
     button = document.querySelector('.button'),
-    dropdown = document.querySelector('.dropdown-lists');
+    dropdown = document.querySelector('.dropdown-lists'),
+    loadMessage = `<div class="sk-chase sk-center">
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                </div>`,
+    successMesage = 'успех',
+    statusMessage = document.createElement('div');
+
+document.querySelector('.main').append(statusMessage);
+statusMessage.innerHTML = loadMessage;
+
 
 //* закрытие списка, если поле пустое
 document.addEventListener('click', event => {
@@ -43,12 +57,21 @@ button.addEventListener('click', event => {
     }
 });
 
+const outputData = (time = 2000) => {
+    document.querySelector('.input-cities').style.display = 'none';
+    setTimeout(() => {
+        statusMessage.textContent = '';
+        document.querySelector('.input-cities').style.display = 'block';
+    }, time);
+};
+
 // запрос на севрер и получение данных
 fetch(url)
     // переводим в формат json
     .then(response => response.json())
     // получаем наши данные
     .then(data => {
+        outputData();
         getDataDefault(data);
     })
     .catch(error => console.error(error));
@@ -179,6 +202,7 @@ input.addEventListener('focus', () => {
         } else if (target.closest('.dropdown-lists__line')) {
 
             target = target.closest('.dropdown-lists__line');
+            // target.childNodes[1].classList.add('dropdown-lists__city--ip');
             input.value = target.childNodes[1].textContent;
             input.focus();
         }
@@ -186,7 +210,7 @@ input.addEventListener('focus', () => {
 
     //* изменнения значения в инпуте при вводе
     input.addEventListener('input', () => {
-        input.value = input.value.replace('-', '–');
+        // input.value = input.value.replace('-', '–');
         // запрос на севрер и получение данных
         fetch(url)
             // переводим в формат json
@@ -235,7 +259,7 @@ function getDataDefault(response) {
                 const cities = element.cities[i];
 
                 content += `<div class="dropdown-lists__line">
-                                <div class="dropdown-lists__city dropdown-lists__city--ip">${cities.name}</div>
+                                <div class="dropdown-lists__city">${cities.name}</div>
                                 <div class="dropdown-lists__count">${cities.count}</div>
                             </div>
                             `;
@@ -272,7 +296,7 @@ function getDataSelect(response) {
 
                 element.cities.forEach(city => {
                     content += `<div class="dropdown-lists__line">
-                                    <div class="dropdown-lists__city dropdown-lists__city--ip">${city.name}</div>
+                                    <div class="dropdown-lists__city">${city.name}</div>
                                     <div class="dropdown-lists__count">${city.count}</div>
                                 </div>`;
                 });
@@ -310,7 +334,7 @@ function getDataAutocomplete(response) {
                     // eslint-disable-next-line no-loop-func
                     element['cities'].forEach(city => {
                         content += `<div class="dropdown-lists__line">
-                                        <div class="dropdown-lists__city dropdown-lists__city--ip">${city.name}</div>
+                                        <div class="dropdown-lists__city">${city.name}</div>
                                         <div class="dropdown-lists__count">${city.count}</div>
                                     </div>`;
                     });
@@ -319,6 +343,18 @@ function getDataAutocomplete(response) {
 
             element.cities.forEach(city => {
                 if (city.name.toLowerCase().match(input.value.toLowerCase())) {
+                    const indexStart = city.name.toLowerCase().search(input.value.toLowerCase());
+                    const indexFinal = city.name.toLowerCase().match(input.value.toLowerCase())[0].length;
+
+                    let temp = '';
+                    if (indexStart === 0) {
+                        // eslint-disable-next-line max-len
+                        temp = `<b>${city.name.slice(indexStart, indexFinal)}</b>${city.name.slice(indexFinal, city.name.length)}`;
+                    } else {
+                        // eslint-disable-next-line max-len
+                        temp = `${city.name.slice(0, indexStart )}<b>${city.name.slice(indexStart, indexStart + indexFinal)}</b>${city.name.slice(indexStart + indexFinal, city.name.length)}`;
+                    }
+                    // console.log(temp);
                     count++;
 
                     if (count === 1) {
@@ -328,7 +364,7 @@ function getDataAutocomplete(response) {
                     }
 
                     content +=  `<div class="dropdown-lists__line">
-                                    <div class="dropdown-lists__country">${city.name}</div>
+                                    <div class="dropdown-city">${temp}</div>
                                     <div class="dropdown-lists__count">${city.count}</div>
                                 </div>`;
 
