@@ -8,7 +8,8 @@ let listDefault = document.querySelector('.dropdown-lists__list--default'),
     listAutocomplete = document.querySelector('.dropdown-lists__list--autocomplete'),
     selectCountry = '',
     valueInput = '',
-    link = '';
+    link = '',
+    country = '';
 
 const url = 'db_cities.json',
     input = document.getElementById('select-cities'),
@@ -16,9 +17,8 @@ const url = 'db_cities.json',
     button = document.querySelector('.button'),
     dropdown = document.querySelector('.dropdown-lists');
 
-// закрытие списка, если поле пустое
+//* закрытие списка, если поле пустое
 document.addEventListener('click', event => {
-    console.log();
     if (!event.target.closest('.input-cities') && !input.value) {
         listDefault.style.display = 'none';
         listAutocomplete.style.display = 'none';
@@ -85,9 +85,15 @@ input.addEventListener('focus', () => {
         inputValue = input.value;
         // показываем кнопку крестик для очищения поля поиска
         closeBtn.style.display = 'block';
-        listAutocomplete.style.display = 'block';
+        // скрываем все поля
+        listAutocomplete.style.display = 'none';
         listSelect.style.display = 'none';
         listDefault.style.display = 'none';
+
+        // если выбрана страна, то блок не скрывается
+        if (country === input.value) {
+            listAutocomplete.style.display = 'block';
+        }
 
     } else {
         // открываем список о всех странах и ТОП 3 городах кажлй страны
@@ -203,7 +209,7 @@ input.addEventListener('focus', () => {
     });
 });
 
-// отображения списка по умолчанию
+//* отображения списка по умолчанию
 function getDataDefault(response) {
     const countryBlock =  document.createElement('div');
     let content = '';
@@ -241,7 +247,7 @@ function getDataDefault(response) {
     listDefault.querySelector('.dropdown-lists__col').append(countryBlock);
 }
 
-// отображения списка при выборе страны
+//* отображения списка при выборе страны
 function getDataSelect(response) {
     const countryBlock =  document.createElement('div');
     let content = '';
@@ -257,6 +263,7 @@ function getDataSelect(response) {
             element.cities.sort((a, b) => (Number(a.count) < Number(b.count) ? 1 : -1));
 
             if (element.country === selectCountry) {
+                country = element.country;
                 // add country
                 content =  `<div class="dropdown-lists__total-line">
                                 <div class="dropdown-lists__country">${element.country}</div>
@@ -277,7 +284,7 @@ function getDataSelect(response) {
     listSelect.querySelector('.dropdown-lists__col').append(countryBlock);
 }
 
-// отображение списка при поиске
+//* отображение списка при поиске
 function getDataAutocomplete(response) {
     const countryBlock =  document.createElement('div');
     let content = '',
@@ -310,13 +317,8 @@ function getDataAutocomplete(response) {
                                         <div class="dropdown-lists__city dropdown-lists__city--ip">${city.name}</div>
                                         <div class="dropdown-lists__count">${city.count}</div>
                                     </div>`;
-                        // content +=  `<div class="dropdown-lists__line">
-                        //                 <div class="dropdown-lists__country">${city.name}</div>
-                        //                 <div class="dropdown-lists__count">${city.count}</div>
-                        //             </div>`;
                     });
                 }
-                // console.log(element['cities']);
             }
 
             element.cities.forEach(city => {
@@ -325,8 +327,6 @@ function getDataAutocomplete(response) {
                     count++;
 
                     if (count === 1) {
-                        // console.log(1);
-                        // console.log(content);
                         link = city.link;
                     } else {
                         link = '';
