@@ -7,11 +7,11 @@ let listDefault = document.querySelector('.dropdown-lists__list--default'),
     listSelect = document.querySelector('.dropdown-lists__list--select'),
     listAutocomplete = document.querySelector('.dropdown-lists__list--autocomplete'),
     selectCountry = '',
-    valueInput = '',
+    inputValue = '',
     link = '',
     country = '';
 
-const url = 'db_cities.json',
+const url = '/db_cities copy.json',
     input = document.getElementById('select-cities'),
     closeBtn = document.querySelector('.close-button'),
     button = document.querySelector('.button'),
@@ -186,7 +186,7 @@ input.addEventListener('focus', () => {
 
     //* изменнения значения в инпуте при вводе
     input.addEventListener('input', () => {
-
+        input.value = input.value.replace('-', '–');
         // запрос на севрер и получение данных
         fetch(url)
             // переводим в формат json
@@ -301,10 +301,6 @@ function getDataAutocomplete(response) {
             // сортировка по count
             element.cities.sort((a, b) => (Number(a.count) < Number(b.count) ? 1 : -1));
 
-            // переводим первую букву в заглавную, остальные - прописные
-            inputValue = inputValue.replace(/(|\s+)\S/g, val => val.toLowerCase());
-            inputValue = inputValue.replace(/(^|\s)\S/g, val => val.toUpperCase());
-
             for (const keyCountry in element) {
                 if (element['country'] === inputValue) {
                     content =  `<div class="dropdown-lists__total-line">
@@ -322,8 +318,7 @@ function getDataAutocomplete(response) {
             }
 
             element.cities.forEach(city => {
-
-                if (city.name.match(inputValue)) {
+                if (city.name.toLowerCase().match(input.value.toLowerCase())) {
                     count++;
 
                     if (count === 1) {
