@@ -9,7 +9,10 @@ let listDefault = document.querySelector('.dropdown-lists__list--default'),
     selectCountry = '',
     inputValue = '',
     link = '',
-    country = '';
+    country = '',
+    intervalOut,
+    intervalIn,
+    countAnimate = 0;
 
 const url = 'https://study-js-a739c-default-rtdb.firebaseio.com/db.json', // json-server на firebase
     input = document.getElementById('select-cities'),
@@ -28,7 +31,7 @@ const url = 'https://study-js-a739c-default-rtdb.firebaseio.com/db.json', // jso
     statusMessage = document.createElement('div');
 
 document.querySelector('.main').append(statusMessage);
-statusMessage.innerHTML = loadMessage;
+// statusMessage.innerHTML = loadMessage;
 
 
 //* закрытие списка, если поле пустое
@@ -57,6 +60,7 @@ button.addEventListener('click', event => {
     }
 });
 
+//* убираем блок когда идёт загрузка
 const outputData = (time = 2000) => {
     document.querySelector('.input-cities').style.display = 'none';
     setTimeout(() => {
@@ -65,13 +69,35 @@ const outputData = (time = 2000) => {
     }, time);
 };
 
+// анимация
+function animate({ duration, draw, timing }) {
+
+    let start = performance.now();
+
+    requestAnimationFrame(function animate(time) {
+
+        let timeFraction = (time - start) / duration;
+
+        if (timeFraction > 1) timeFraction = 1;
+
+        let progress = timing(timeFraction);
+
+        draw(progress);
+
+        if (timeFraction < 1) {
+            requestAnimationFrame(animate);
+        }
+
+    });
+}
+
 // запрос на севрер и получение данных
 fetch(url)
     // переводим в формат json
     .then(response => response.json())
     // получаем наши данные
     .then(data => {
-        outputData();
+        // outputData();
         getDataDefault(data);
     })
     .catch(error => console.error(error));
@@ -115,7 +141,7 @@ input.addEventListener('focus', () => {
 
         // если выбрана страна, то блок не скрывается
         if (country === input.value) {
-            listAutocomplete.style.display = 'block';
+            listSelect.style.display = 'block';
         }
 
     } else {
@@ -162,11 +188,26 @@ input.addEventListener('focus', () => {
             target = target.closest('.dropdown-lists__total-line');
             input.value = '';
 
-            // возврат к списку стран по умолчанию
-            if (target) {
-                listSelect.style.display = 'none';
-                listDefault.style.display = 'block';
-            }
+            animate({
+                // скорость анимации
+                duration: 400,
+                // Функция расчёта времени
+                timing(timeFraction) {
+                    return timeFraction;
+                },
+                // Функция отрисовки
+                draw(progress) {
+                    // в ней мы и производим вывод данных
+                    listSelect.style.right = progress * 100 + '%';
+                    listDefault.style.display = 'none';
+                    if (progress === 1) {
+                        listSelect.style.display = 'none';
+                        listDefault.style.display = 'block';
+                        listSelect.style.right = 0 + '%';
+                    }
+                }
+            });
+
         }
     });
 
@@ -182,8 +223,26 @@ input.addEventListener('focus', () => {
             input.value = target.childNodes[1].textContent;
             link = '';
 
-            listDefault.style.display = 'none';
-            listSelect.style.display = 'block';
+            animate({
+                // скорость анимации
+                duration: 400,
+                // Функция расчёта времени
+                timing(timeFraction) {
+                    return timeFraction;
+                },
+                // Функция отрисовки
+                draw(progress) {
+                    // в ней мы и производим вывод данных
+                    listDefault.style.left = progress * 100 + '%';
+
+                    if (progress === 1) {
+                        listDefault.style.display = 'none';
+                        listSelect.style.display = 'block';
+                        listDefault.style.left = 0 + '%';
+                    }
+                }
+            });
+
             closeBtn.style.display = 'block';
 
             // запрос на севрер и получение данных
@@ -325,21 +384,21 @@ function getDataAutocomplete(response) {
             // сортировка по count
             element.cities.sort((a, b) => (Number(a.count) < Number(b.count) ? 1 : -1));
 
-            for (const keyCountry in element) {
-                if (element['country'] === inputValue) {
-                    content =  `<div class="dropdown-lists__total-line">
-                                <div class="dropdown-lists__country">${element.country}</div>
-                                <div class="dropdown-lists__count">${element.count}</div>
-                            </div>`;
-                    // eslint-disable-next-line no-loop-func
-                    element['cities'].forEach(city => {
-                        content += `<div class="dropdown-lists__line">
-                                        <div class="dropdown-lists__city">${city.name}</div>
-                                        <div class="dropdown-lists__count">${city.count}</div>
-                                    </div>`;
-                    });
-                }
-            }
+            // for (const keyCountry in element) {
+            //     if (element['country'] === inputValue) {
+            //         content =  `<div class="dropdown-lists__total-line">
+            //                     <div class="dropdown-lists__country">${element.country}</div>
+            //                     <div class="dropdown-lists__count">${element.count}</div>
+            //                 </div>`;
+            //         // eslint-disable-next-line no-loop-func
+            //         element['cities'].forEach(city => {
+            //             content += `<div class="dropdown-lists__line">
+            //                             <div class="dropdown-lists__city">${city.name}</div>
+            //                             <div class="dropdown-lists__count">${city.count}</div>
+            //                         </div>`;
+            //         });
+            //     }
+            // }
 
             element.cities.forEach(city => {
                 if (city.name.toLowerCase().match(input.value.toLowerCase())) {
@@ -352,7 +411,7 @@ function getDataAutocomplete(response) {
                         temp = `<b>${city.name.slice(indexStart, indexFinal)}</b>${city.name.slice(indexFinal, city.name.length)}`;
                     } else {
                         // eslint-disable-next-line max-len
-                        temp = `${city.name.slice(0, indexStart )}<b>${city.name.slice(indexStart, indexStart + indexFinal)}</b>${city.name.slice(indexStart + indexFinal, city.name.length)}`;
+                        temp = `${city.name.slice(0, indexStart)}<b>${city.name.slice(indexStart, indexStart + indexFinal)}</b>${city.name.slice(indexStart + indexFinal, city.name.length)}`;
                     }
                     // console.log(temp);
                     count++;

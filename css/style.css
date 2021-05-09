@@ -134,10 +134,14 @@ body .main .input-cities label {
 
 .dropdown-lists__list--default {
   display: none;
+  position: relative;
+  /* left: 0%; */
 }
 
 .dropdown-lists__list--select {
   display: none;
+  position: relative;
+  /* right: 0%; */
 }
 
 .dropdown-lists__list--autocomplete {
